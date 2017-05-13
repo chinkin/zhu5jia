@@ -1,0 +1,198 @@
+.am-label {
+  padding: 7px 1.5rem;
+}
+
+.search-map {
+  top: 47px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+}
+
+.search-result {
+  top: 0;
+  left: 0;
+  width: 60%;
+  height: 95%;
+  background: none repeat scroll 0 0 #f7f7f7;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  position: absolute;
+}
+
+.result-header {
+  top: 47px;
+  left: 0;
+  right: 40%;
+  background-color: #fff;
+  padding: 0 20px;
+}
+
+.header-destination {
+  border-bottom: 1px solid;
+  padding: 20px 0 10px 20px;
+}
+
+.room-number {
+  color: #82888a;
+  border-bottom: 1px solid #000;
+  padding: 20px 0 10px 0;
+}
+
+.filters {
+  right: 40%;
+  left: 0;
+  background-color: #fff;
+  padding: 20px;
+  overflow: hidden;
+  display: block;
+}
+
+#destination {
+  width: 250px;
+}
+
+#checkin, #checkout {
+  width: 150px;
+  cursor: auto;
+}
+
+.adult, .child {
+  width: 150px;
+  height: 38px;
+  color: #000;
+  border: 1px solid #cccccc;
+}
+
+.results {
+  background-color: #fff;
+}
+
+.result-list {
+  padding: 0 20px;
+  margin-bottom: 20px;
+  overflow-x: hidden;
+}
+
+/*
+#search_result .am-slider {
+  height: 240px;
+}
+*/
+
+.list-img {
+  position: relative;
+}
+
+.list-price {
+  bottom: 30px;
+  left: 0;
+  background-color: rgba(60, 63, 64, 0.9);
+  color: #fff;
+  padding: 7px 10px;
+  position: absolute;
+}
+
+.list-body {
+  border-top: 1px solid #dce0e0;
+  padding: 5px 10px 10px 10px;
+  margin: 0;
+  position: relative;
+}
+.list-body > *:last-child {
+    margin-bottom: 0;
+}
+.list-body > *:first-child {
+    margin-top: 0;
+}
+.list-body > .pull-right {
+  margin-left: 15px;
+  float: right;
+}
+.list-body a {
+  color: inherit;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+.user-image {
+  top: -40px;
+  width: 60px;
+  height: 60px;
+  background-color: none;
+  backface-visibility: hidden;
+  vertical-align: bottom;
+  margin-bottom: -40px;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.user-image img {
+  height: 56px;
+  width: 56px;
+  padding: 1px;
+  vertical-align: middle;
+}
+
+.room-title {
+  font-size: 16px;
+  font-weight: normal;
+  white-space: nowrap;
+  margin: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.room-comment {
+  height: 20px;
+  color: #82888a;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.result-footer {
+  padding: 20px;
+  overflow: hidden;
+}
+
+.results-count {
+  margin: 0px 0px 5px 2px;
+}
+
+.pagination-block {
+  height: 40px;
+  margin: 18px 0px;
+}
+
+.footer-destination {
+  border-top: 1px solid;
+  padding: 10px 20px 20px 20px;
+}
+
+.go-top-toolbar {
+	bottom: 10px;
+  right: 42%;
+  position: fixed;
+  z-index: 999;
+}
+.go-top-toolbar a {
+  display: none;
+  opacity: 0.7;
+}
+.go-top-toolbar a.am-active {
+  display: block;
+}
+
+.map {
+  bottom: 0;
+  left: auto;
+  right: 0;
+  width: 40%;
+  height: 100%
+  position: absolute;
+  display: block;
+}
+

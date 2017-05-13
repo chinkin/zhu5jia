@@ -1,0 +1,199 @@
+<header class="am-topbar z5j-topbar-no-bottom">
+  <div class="z5j-container-full">
+    <div class="z5j-comp am-topbar-left">
+      <a class="z5j-topbar-brand z5j-head-button" href="http://test.zhu5jia.com">
+        <i class="z5j-header-icon am-icon-home am-icon-md"></i>
+      </a>
+    </div>
+    <div class="z5j-comp am-topbar-left">
+      <form class="am-topbar-form am-form-inline" role="search">
+        <div class="am-form-group">
+          <input type="text" class="am-form-field am-input-sm" placeholder="搜索">
+        </div>
+      </form>
+    </div>
+    <div class="z5j-comp am-topbar-right">
+      <a class="z5j-head-button" href="#/user/dashboard">
+        <span class="am-margin-right-xs" ng-if="me.users.gender!='F'">{{me.users.lastname}}先生</span>
+        <span class="am-margin-right-xs" ng-if="me.users.gender=='F'">{{me.users.lastname}}女士</span>
+        <img class="z5j-topbar-image am-circle" ng-src="../../media/portrait/{{me.users.portrait}}" ng-if="me.users.portrait!=''"/>
+        <img class="z5j-topbar-image am-circle" ng-src="../../media/user_pic-225x225.png" ng-if="me.users.portrait==''"/>
+      </a>
+      <div class="am-panel am-panel-default am-margin-bottom-lg z5j-dropdown-menu">
+        <div class="am-panel-bd">
+          <a href="#/user/trip//">
+            <div class="z5j-menu-item">我的旅程</div>
+          </a>
+          <hr>
+          <a href="#/wishlists/mine">
+            <div class="z5j-menu-item">我的收藏</div>
+          </a>
+          <hr>
+          <a href="#/user/me//">
+            <div class="z5j-menu-item">我的资料</div>
+          </a>
+          <hr>
+          <a href="#">
+            <div class="z5j-menu-item">旅行基金</div>
+          </a>
+          <hr>
+          <a href="#/user/account//">
+            <div class="z5j-menu-item">帐号设置</div>
+          </a>
+          <hr>
+          <a ng-click="logoff()">
+            <div class="z5j-menu-item">退出</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="z5j-comp am-topbar-right">
+      <a class="z5j-head-button">
+        <span class="am-margin-right-xs">帮助</span>
+        <span class="am-icon-support am-icon-sm"></span>
+      </a>
+      <div class="z5j-dropdown-menu">
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <div class="am-panel-hd">
+            <div class="am-margin-top-sm am-margin-bottom-sm am-margin-left-sm">推荐文章
+            </div>
+          </div>
+          <div class="am-panel-bd">
+            <a href="#/help/">
+              <div class="z5j-menu-item">
+                <span class="am-icon-file-text-o am-icon-xs am-margin-right-xs"></span>
+                <span>入门指南</span>
+              </div>
+            </a>
+            <hr>
+            <a href="#/help/">
+              <div class="z5j-menu-item">
+                <span class="am-icon-file-text-o am-icon-xs am-margin-right-xs"></span>
+                <span>如何付款</span>
+              </div>
+            </a>
+            <hr>
+            <a href="#/help/">
+              <div class="z5j-menu-item">
+                <span class="am-icon-file-text-o am-icon-xs am-margin-right-xs"></span>
+                <span>如何做房东</span>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="z5j-comp am-topbar-right">
+      <a class="z5j-head-button" href="#/user/inbox//">
+        <span class="am-margin-right-xs">短信</span>
+        <i class="z5j-header-icon am-icon-envelope-o am-icon-sm">
+          <i class="z5j-alert-count am-badge">{{newInformation}}</i>
+        </i>
+      </a>
+      <div class="z5j-dropdown-menu">
+        <div class="am-panel am-panel-default">
+          <div class="am-panel-hd">
+            <div class="am-margin-top-sm am-margin-bottom-sm am-margin-left-sm">短信({{newMessage}})
+              <a class="am-align-right" href="#/user/inbox//">查看收件箱</a>
+            </div>
+          </div>
+          <div class="am-panel-bd" ng-if="newMessage>0">
+            <div ng-repeat="message in messages">
+              <a href="#/user/inbox/2/{{message.id}}">
+                <div class="z5j-menu-item">
+                  <span class="am-icon-envelope-o am-icon-xs am-margin-right-xs"></span>
+                  <span>{{message.title | maxString: 40}}</span>
+                </div>
+              </a>
+              <hr>
+            </div>
+          </div>
+        </div>
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <div class="am-panel-hd">
+            <div class="am-margin-top-sm am-margin-bottom-sm am-margin-left-sm">通知({{newNotification}})
+              <a class="am-align-right" href="#/user/dashboard">查看通知</a>
+            </div>
+          </div>
+          <div class="am-panel-bd" ng-if="newNotification>0">
+            <div ng-repeat="notification in notifications">
+              <a href="#/user/dashboard">
+                <div class="z5j-menu-item">
+                  <span class="am-icon-info-circle am-icon-xs am-margin-right-xs"></span>
+                  <span>{{notification.title | maxString: 40}}</span>
+                </div>
+              </a>
+              <hr>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="z5j-comp am-topbar-right" ng-if="hasTrip">
+      <a class="z5j-head-button" href="#/user/trip//">
+        <span class="am-margin-right-xs">旅程</span>
+        <span class="am-icon-suitcase am-icon-sm"></span>
+      </a>
+      <div class="am-panel am-panel-default am-margin-bottom-lg z5j-dropdown-menu">
+        <div class="am-panel-bd">
+          <a href="#/user/trip/new/">
+            <div class="z5j-menu-item">开始旅程</div>
+          </a>
+          <hr>
+          <a href="#/user/trip/new/">
+            <div class="z5j-menu-item">我的预订</div>
+          </a>
+          <hr>
+          <a href="#/user/trip/previous/">
+            <div class="z5j-menu-item">曾经到过</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="z5j-comp am-topbar-right" ng-if="hasHouse">
+      <a class="z5j-head-button" href="#/user/room//">
+        <span class="am-margin-right-xs">房东</span>
+        <span class="am-icon-building-o am-icon-sm"></span>
+      </a>
+      <div class="am-panel am-panel-default am-margin-bottom-lg z5j-dropdown-menu">
+        <div class="am-panel-bd">
+          <a href="#/user/room//">
+            <div class="z5j-menu-item">管理房源</div>
+          </a>
+          <hr>
+          <a href="#/user/room/newroom/">
+            <div class="z5j-menu-item">发布新房</div>
+          </a>
+          <hr>
+          <a href="#/user/room/mybooking/bookings">
+            <div class="z5j-menu-item">我的订单</div>
+          </a>
+          <hr>
+          <a href="#/user/room/mybooking/records">
+            <div class="z5j-menu-item">交易记录</div>
+          </a>
+          <hr>
+          <a href="#/user/room/myroom/">
+            <div class="z5j-menu-item">房源评价</div>
+          </a>
+          <hr>
+          <a href="#/help/">
+            <div class="z5j-menu-item">好客之道</div>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="z5j-comp z5j-comp-host am-topbar-right" ng-if="!hasHouse">
+      <a class="z5j-head-button" href="#/user/room/newroom/">
+        <span class="am-btn">做房东</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="z5j-main" ui-view="userContent">
+</div>
+
+<div class="z5j-footer">
+<div>
+<link rel="stylesheet" href="css/user.css">

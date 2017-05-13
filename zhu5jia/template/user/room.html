@@ -1,0 +1,2056 @@
+<div class="z5j-division" ng-if="!newHouse">
+  <div class="z5j-page-container">
+    <ul class="am-nav z5j-nav-tabs">
+      <li><a href="#/user/dashboard">控制面板</a></li>
+      <li><a href="#/user/inbox//">收件箱</a></li>
+      <li class="z5j-active"><a>我的房源</a></li>
+      <li><a href="#/user/trip//">我的旅程</a></li>
+      <li><a href="#/user/me//">我的资料</a></li>
+      <li><a href="#/user/account//">我的账号</a></li>
+    </ul>
+  </div>
+</div>
+<div class="z5j-content-background-default" ng-if="!newHouse">
+  <div class="z5j-page-container am-padding-top-lg am-padding-bottom-lg">
+    <div class="am-g">
+      <div class="am-u-sm-3 am-padding-horizontal-0">
+        <ul class="z5j-sidenav-list">
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('myroom')" ng-selected="selectedNavi=='myroom'">我的房源</a>
+          </li>
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('mybooking')" ng-selected="selectedNavi=='mybooking'">我的订单</a>
+          </li>
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('condition')" ng-selected="selectedNavi=='condition'">预订条件</a>
+          </li>
+          <div class="am-margin-top-lg am-margin-bottom-lg">
+            <a class="am-btn am-btn-primary am-btn-sm" ng-click="addHouse('')">添加新房源</a>
+          </div>
+        </ul>
+      </div>
+
+<!-- 我的房源 -->
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='myroom'">
+        <div class="am-panel am-panel-default am-margin-bottom-lg" ng-if="house.houses.length==0">
+        </div>
+<!-- 房源列表 -->
+        <div class="am-panel am-panel-default am-margin-bottom-lg" ng-if="house.houses.length>0&&(!currentHouse.hasOwnProperty('id')||currentHouse.id=='')">
+          <div class="am-panel-hd">
+            <div class="z5j-row">
+              <span class="am-margin-sm" ng-class="{true:'z5j-tag-selected',false:'z5j-tag'}[currentStatus==1&&myHouses.hasUnreleased]" ng-click="changeStatus(1)" ng-if="myHouses.hasReleased">已发布
+              </span>
+              <span class="am-margin-sm" ng-class="{true:'z5j-tag-selected',false:'z5j-tag'}[currentStatus==2&&myHouses.hasReleased]" ng-click="changeStatus(2)" ng-if="myHouses.hasUnreleased">未发布
+              </span>
+            </div>
+          </div>
+          <ul class="am-list am-list-static z5j-panel-bd">
+            <li class="am-margin-bottom-lg" ng-repeat="myHouse in house.houses" ng-if="(currentStatus==1&&myHouse.status==0)||(currentStatus==2&&myHouse.status>0)">
+              <div class="z5j-row z5j-row-table">
+                <div class="am-u-sm-3">
+                  <a>
+                    <div class="z5j-media-photo z5j-media-photo-block">
+                      <div class="z5j-media-cover am-text-center">
+                        <img ng-src="../../media/house_default_no_photo.png" class="z5j-img-responsive-height" alt="" ng-if="myHouse.photo==''"/>
+                        <img ng-src="../../media/photos/{{myHouse.photo}}" class="z5j-img-responsive-height" alt="" ng-if="myHouse.photo!=''"/>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+                <div class="am-margin-top-sm" ng-class="{true:'am-u-sm-9',false:'am-u-sm-6'}[myHouse.status==0||myHouse.status==9]">
+                  <div class="z5j-h4 z5j-show-room">
+                    <a ng-click="showHouse(myHouse)" ng-if="myHouse.status==0||myHouse.status==9">
+                      <span ng-repeat="country in countries | filter:{id:myHouse.country}">位于 {{country.name}}</span>
+                      <span ng-repeat="city in cities | filter:{id:myHouse.city}">{{city.name}} {{myHouse.name}}的</span>
+                      <span ng-repeat="type in houseTypes | filter:{id:myHouse.type}">{{type.name}}</span>
+                    </a>
+                    <div ng-if="myHouse.status>0&&myHouse.status<9">
+                      <span ng-repeat="country in countries | filter:{id:myHouse.country}">位于 {{country.name}}</span>
+                      <span ng-repeat="city in cities | filter:{id:myHouse.city}">{{city.name}} {{myHouse.name}}的</span>
+                      <span ng-repeat="type in houseTypes | filter:{id:myHouse.type}">{{type.name}}</span>
+                    </div>
+                  </div>
+                  <div class="z5j-manage-room">
+                    <a ng-click="editHouse(myHouse)" ng-if="myHouse.status==0||myHouse.status==9">管理房源和日历</a>
+                    <a ng-click="addHouse(myHouse)" ng-if="myHouse.status>0&&myHouse.status<9">管理房源和日历</a>
+                  </div>
+                </div>
+                <div class="am-u-sm-3 am-margin-top-sm" ng-if="myHouse.status>0&&myHouse.status<9">
+                  <a class="am-btn z5j-btn-special" ng-click="addHouse(myHouse)">还差{{4-myHouse.status}}步就可以发布了</a>
+                </div>
+              </div>
+              <hr>
+            </li>
+          </ul>
+        </div>
+<!-- 管理房源 -->
+        <div class="am-tabs" data-am-tabs="{noSwipe: 0}" ng-if="house.houses.length>0&&currentHouse.hasOwnProperty('id')&&currentHouse.id!=''">
+          <ul class="z5j-subnav-tabs am-tabs-nav am-nav am-nav-tabs">
+            <li ng-class="{'am-active': currentRoom=='', 'z5j-hidden':currentRoom!=room.id&&room.status=='9'}">
+              <a ng-click="switchRoom('')">我的房子</a>
+            </li>
+            <li class="" ng-class="{'am-active':currentRoom==room.id, 'z5j-hidden':currentRoom!=room.id&&room.status=='9'}" ng-repeat="room in houseRooms">
+              <a ng-click="switchRoom(room.id)">{{room.name}}</a>
+            </li>
+          </ul>
+          <div class="am-tabs-bd">
+<!-- 房屋信息 -->
+            <div class="am-tab-panel" ng-class="{true:'am-active'}[currentRoom=='']">
+              <form name="houseform" class="am-form am-form-horizontal" ng-submit="saveHouse(this.houseform)" novalidate>
+                <div class="am-panel am-panel-default am-margin-top-lg am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">房屋类型
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">类型</label>
+                      <div class="am-u-sm-4">
+                        <select ng-model="currentHouse.type" ng-options="type.id as type.name for type in houseTypes">
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">我是</label>
+                      <div class="am-u-sm-4 am-u-end">
+                        <select ng-model="isowner">
+                          <option value="1">房东</option>
+                          <option value="2">代理</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label" ng-if="currentHouse.type>5">可住成人</label>
+                      <div class="am-u-sm-3" ng-if="currentHouse.type>5">
+                        <input type="text" class="am-form-field" ng-model="currentHouse.person" readonly/>
+                      </div>
+                      <label class="am-u-sm-3 am-form-label">房间(空间)数</label>
+                      <div class="am-u-sm-3 am-u-end">
+                        <div class="z5j-inline-block am-vertical-align-middle">
+                          <input type="text" class="am-form-field" value="{{houseRooms.length}}" readonly/>
+                        </div>
+                        <div class="am-vertical-align-middle">
+                          <a class="am-icon-plus-square am-icon-sm am-secondary" ng-click="addRoom()"></a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">房屋地址
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">国家</label>
+                      <div class="am-u-sm-4" ng-class="{true:'am-u-end'}[currentHouse.province=='']">
+                        <select ng-model="currentHouse.country" ng-options="country.id as country.name for country in countries" ng-change="changeCountry()">
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label" ng-if="provinces.length>0">省/州</label>
+                      <div class="am-u-sm-4" ng-if="provinces.length>0">
+                        <select ng-model="currentHouse.province" ng-options="province.id as province.name for province in provinces" ng-change="changeProvince()">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">城市</label>
+                      <div class="am-u-sm-4" ng-class="{true:'am-u-end'}[currentHouse.district=='']">
+                        <select ng-model="currentHouse.city" ng-options="city.id as city.name for city in cities" ng-change="changeCity()">
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label" ng-if="districts.length>0">区县</label>
+                      <div class="am-u-sm-4" ng-if="districts.length>0">
+                        <select ng-model="currentHouse.district" ng-options="district.id as district.name for district in districts">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm">
+                      <label class="am-u-sm-2 am-form-label">* 地址</label>
+                      <div class="am-u-sm-10">
+                        <input type="text" placeholder="例如，淮海中路88号 / 王府井大街8号" ng-model="currentHouse.address" required/>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm">
+                      <label class="am-u-sm-2 am-form-label">邮编</label>
+                      <div class="am-u-sm-3">
+                        <input type="text" placeholder="200001" ng-model="currentHouse.zip"/>
+                      </div>
+                      <label class="am-u-sm-3 am-form-label">建筑(小区)名</label>
+                      <div class="am-u-sm-4">
+                        <input type="text" placeholder="例如，新天地 / 王府井" ng-model="currentHouse.name"/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">房屋介绍 *
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-u-sm-11 am-u-sm-centered am-margin-top-sm am-margin-bottom-sm">
+                      <textarea class="z5j-content-full" placeholder="介绍一下您的房子(最多100字)" ng-model="currentHouse.introduction" required>
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">打折及退订
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">住满一周的折扣(%)</label>
+                      <div class="am-u-sm-2">
+                        <input type="text" class="am-form-field" maxlength="2" ng-model="currentHouse.weeklydiscount"/>
+                      </div>
+                      <label class="am-u-sm-4 am-form-label">住满一个月的折扣(%)</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <input type="text" class="am-form-field" maxlength="2" ng-model="currentHouse.monthlydiscount"/>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">
+                        <a href="#/help/cancellation/" target="_blank">退订政策</a>
+                      </label>
+                      <div class="am-u-sm-5 am-u-end">
+                        <select ng-model="currentHouse.cancellation" ng-options="cancellation.id as cancellation.name for cancellation in cancellationPolicies">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">入住与退房
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">入住时间</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="currentHouse.checkinfrom" ng-options="time.id as time.name for time in generalTimes" ng-change="adjustCheckinTo()">
+                       </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">至 </label>
+                      <div class="am-u-sm-3 am-u-end">
+                        <select ng-model="currentHouse.checkinto" ng-options="time.id as time.name for time in checkinToTimes">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">退房时间</label>
+                      <div class="am-u-sm-3 am-u-end">
+                        <select ng-model="currentHouse.checkoutfrom" ng-options="time.id as time.name for time in checkoutFromTimes">
+                       </select>
+                      </div>
+                      <label class="am-u-sm-1 am-form-label">至 </label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="currentHouse.checkoutto" ng-options="time.id as time.name for time in generalTimes" ng-change="adjustCheckoutFrom()">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">租房细节
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-u-end am-form-label">* 房屋描述</label>
+                      <div class="am-u-sm-11 am-u-sm-centered">
+                        <textarea class="z5j-content-full" placeholder="描述一下您的房屋(最多100字)" ng-model="currentHouse.description" required>
+                        </textarea>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-u-end am-form-label">* 设施使用</label>
+                      <div class="am-u-sm-11 am-u-sm-centered">
+                        <textarea class="z5j-content-full" placeholder="说明屋内主要设施的使用和注意点(最多100字)" ng-model="currentHouse.access" required>
+                        </textarea>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-u-end am-form-label">* 联系方法</label>
+                      <div class="am-u-sm-11 am-u-sm-centered">
+                        <textarea class="z5j-content-full" placeholder="留下您的联系方式，让租客可以找到您(最多50字)" ng-model="currentHouse.interaction" required>
+                        </textarea>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-u-end am-form-label">周边信息</label>
+                      <div class="am-u-sm-11 am-u-sm-centered">
+                        <textarea class="z5j-content-full" placeholder="周边有哪些好玩好吃的地方(最多100字)" ng-model="currentHouse.neighborhood">
+                        </textarea>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-u-end am-form-label">* 交通信息</label>
+                      <div class="am-u-sm-11 am-u-sm-centered">
+                        <textarea class="z5j-content-full" placeholder="周边的交通情况以及如何到达这里(最多100字)" ng-model="currentHouse.around" required>
+                        </textarea>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-u-end am-form-label">注意事项</label>
+                      <div class="am-u-sm-11 am-u-sm-centered">
+                        <textarea class="z5j-content-full" placeholder="如果有特别的注意事项的话(最多30字)" ng-model="currentHouse.note">
+                        </textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">房屋守则 *
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-u-sm-11 am-u-sm-centered am-margin-top-sm am-margin-bottom-sm">
+                      <textarea class="z5j-content-full" placeholder="房屋守则(最多100字)" ng-model="currentHouse.rules" required>
+                      </textarea>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-form-group am-margin-top-lg">
+                  <div class="am-u-sm-6 am-u-sm-offset-1">
+                    <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="houseform.$invalid||!houseform.$dirty">保 存 修 改</button>
+                  </div>
+                  <div class="am-u-sm-2" ng-if="currentHouse.status==0">
+                    <button class="am-btn am-btn-warning am-radius am-btn-block" ng-click="hideHouse(true)">隐 藏</button>
+                  </div>
+                  <div class="am-u-sm-2" ng-if="currentHouse.status==9">
+                    <button class="am-btn am-btn-warning am-radius am-btn-block" ng-click="hideHouse(false)">公 开</button>
+                  </div>
+                  <div class="am-u-sm-2 am-u-end">
+                    <button class="am-btn am-btn-danger am-radius am-btn-block" ng-click="openPopup('deletehouse', currentHouse.name)">删 除</button>
+                  </div>
+                </div>
+              </form>
+              <div class="am-panel am-panel-default am-margin-top-lg am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                <div class="am-panel-hd">
+                  <div class="z5j-row">
+                    <div class="am-margin-left-sm">照片与视频
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel-bd">
+                  <div class="am-g">
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==0]">
+                      <div class="am-form-file" ng-click="uploadPhoto('0')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==0" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>0">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo0}}" />
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                      </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==1]">
+                      <div class="am-form-file" ng-click="uploadPhoto('1')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==1" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>1">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo1}}" />
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removePhoto('1')"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hidePhoto('1')"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-photo-cover-sm" ng-if="houseMedia.hidden1==1">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==2]">
+                      <div class="am-form-file" ng-click="uploadPhoto('2')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==2" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>2">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo2}}" />
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removePhoto('2')"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hidePhoto('2')"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-photo-cover-sm" ng-if="houseMedia.hidden2==1">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==3]">
+                      <div class="am-form-file" ng-click="uploadPhoto('3')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==3" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>3">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo3}}" />
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removePhoto('3')"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hidePhoto('3')"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-photo-cover-sm" ng-if="houseMedia.hidden3==1">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-g">
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==4]">
+                      <div class="am-form-file" ng-click="uploadPhoto('4')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==4" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>4">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo4}}" />
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removePhoto('4')"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hidePhoto('4')"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-photo-cover-sm" ng-if="houseMedia.hidden4==1">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==5]">
+                      <div class="am-form-file" ng-click="uploadPhoto('5')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==5" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>5">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo5}}" />
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removePhoto('5')"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hidePhoto('5')"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-photo-cover-sm" ng-if="houseMedia.hidden5==1">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==6]">
+                      <div class="am-form-file" ng-click="uploadPhoto('6')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==6" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>6">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo6}}" />
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removePhoto('6')"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hidePhoto('6')"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-photo-cover-sm" ng-if="houseMedia.hidden6==1">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==7]">
+                      <div class="am-form-file" ng-click="uploadPhoto('7')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==7" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>7">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo7}}" />
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removePhoto('7')"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hidePhoto('7')"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-photo-cover-sm" ng-if="houseMedia.hidden7==1">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-g">
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==8]">
+                      <div class="am-form-file" ng-click="uploadPhoto('8')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==8" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>8">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo8}}" />
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removePhoto('8')"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hidePhoto('8')"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-photo-cover-sm" ng-if="houseMedia.hidden8==1">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="am-u-sm-3 am-padding-right-0" ng-class="{true:'am-u-end'}[lastMedia==9]">
+                      <div class="am-form-file" ng-click="uploadPhoto('9')">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_photo.png" ng-if="lastMedia==9" />
+                        <div class="z5j-image-with-status" ng-if="lastMedia>9">
+                          <img class="am-radius z5j-photo-sm" ng-src="../../media/photos/{{houseMedia.photo9}}" />
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removePhoto('9')"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hidePhoto('9')"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-photo-cover-sm" ng-if="houseMedia.hidden9==1">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="am-g am-margin-top-sm">
+                    <div class="am-u-sm-6 am-u-end">
+                      <div class="am-form-file" ng-click="uploadVideo()">
+                        <img class="am-radius z5j-media-photo z5j-photo-sm" ng-src="../../media/house_default_no_video.png" ng-if="houseMedia.video==''" />
+                        <div class="z5j-image-with-status" ng-if="houseMedia.video!=''">
+                          <video class="am-radius z5j-video-sm" ng-src="{{houseMedia.fpvideo | trustUrl}}" autoplay="autoplay" ng-if="houseMedia.hidden!=1">
+                          </video>
+                          <video class="am-radius z5j-video-sm" ng-src="{{houseMedia.fpvideo | trustUrl}}" ng-if="houseMedia.hidden==1">
+                          </video>
+                          <div class="z5j-status-icon">
+                            <div class="z5j-photo-icon">
+                              <div class="z5j-photo-icon-background z5j-background-error am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon z5j-icon-white am-icon-times" ng-click="removeVideo()"></i>
+                            </div>
+                          </div>
+                          <div class="z5j-status-icon-left">
+                            <div class="z5j-photo-icon-left">
+                              <div class="z5j-photo-icon-background z5j-background-warning am-circle">
+                              </div>
+                              <i class="z5j-photo-icon-icon-left z5j-icon-white am-icon-ban" ng-click="hideVideo()"></i>
+                            </div>
+                          </div>
+                        </div>
+                        <input type="file" nv-file-select="" uploader="uploader">
+                        <div class="z5j-video-cover-sm" ng-if="houseMedia.hidden==1">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+<!-- 房间(空间)信息 -->
+            <div class="am-tab-panel" ng-class="{true:'am-active'}[currentRoom==room.id]" ng-repeat="room in houseRooms">
+              <form name="roomform{{room.id}}" class="am-form am-form-horizontal" ng-submit="saveRoom(this, room)" novalidate>
+                <div class="am-panel am-panel-default am-margin-top-lg am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">房间(空间)基本信息
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">* 房间</label>
+                      <div class="am-u-sm-4">
+                        <input type="text" class="am-form-field" ng-model="room.name" required/>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">类型</label>
+                      <div class="am-u-sm-4">
+                        <select ng-model="room.type" ng-options="type.id as type.name for type in roomTypes">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <i class="am-u-sm-2 am-form-label am-icon-user am-icon-md"></i>
+                      <div class="am-u-sm-3 am-u-end">
+                        <select ng-model="room.person">
+                          <option value="1">1位成人 </option>
+                          <option value="2">2位成人 </option>
+                          <option value="3">3位成人 </option>
+                          <option value="4">4位成人 </option>
+                          <option value="5">5位成人 </option>
+                          <option value="6">6位成人 </option>
+                          <option value="7">7位成人 </option>
+                          <option value="8">8位成人 </option>
+                          <option value="9">9位及以上</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <i class="am-u-sm-2 am-form-label am-icon-male am-icon-md"></i>
+                      <div class="am-u-sm-3">
+                        <select ng-model="room.child">
+                          <option value="0"> </option>
+                          <option value="1">1位儿童 </option>
+                          <option value="2">2位儿童 </option>
+                          <option value="3">3位儿童 </option>
+                          <option value="4">4位儿童 </option>
+                          <option value="5">5位儿童 </option>
+                          <option value="6">6位儿童 </option>
+                          <option value="7">7位儿童 </option>
+                          <option value="8">8位儿童 </option>
+                          <option value="9">9位及以上</option>
+                        </select>
+                      </div>
+                      <i class="am-u-sm-2 am-u-sm-offset-1 am-form-label am-icon-child am-icon-md"></i>
+                      <div class="am-u-sm-3 am-u-end">
+                        <select ng-model="room.infant">
+                          <option value="0"> </option>
+                          <option value="1">1位婴儿 </option>
+                          <option value="2">2位婴儿 </option>
+                          <option value="3">3位婴儿 </option>
+                          <option value="4">4位婴儿 </option>
+                          <option value="5">5位婴儿 </option>
+                          <option value="6">6位婴儿 </option>
+                          <option value="7">7位婴儿 </option>
+                          <option value="8">8位婴儿 </option>
+                          <option value="9">9位及以上</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">床位</label>
+                      <div class="am-u-sm-4">
+                        <select ng-model="room.beds" ng-options="type.id as type.name for type in bedTypes">
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">卫生间</label>
+                      <div class="am-u-sm-4">
+                        <select ng-model="room.bathroom" ng-options="type.id as type.name for type in bathroomTypes">
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-top-lg am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">三餐
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">早餐</label>
+                      <div class="am-u-sm-2" ng-class="{true:'am-u-end'}[room.breakfast<2]">
+                        <select ng-model="room.breakfast" ng-options="type.id as type.name for type in mealTypes">
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label" ng-if="room.breakfast>1">餐费</label>
+                      <div class="am-u-sm-2 am-u-end" ng-if="room.breakfast>1">
+                        <input type="text" class="am-form-field" ng-model="room.priceb" ng-pattern="/^[1-9]\d?\d?\.\d\d|0\.\d\d$/" required/>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">午餐</label>
+                      <div class="am-u-sm-2" ng-class="{true:'am-u-end'}[room.lunch<2]">
+                        <select ng-model="room.lunch" ng-options="type.id as type.name for type in mealTypes">
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label" ng-if="room.lunch>1">餐费</label>
+                      <div class="am-u-sm-2 am-u-end" ng-if="room.lunch>1">
+                        <input type="text" class="am-form-field" ng-model="room.pricel" ng-pattern="/^[1-9]\d?\d?\.\d\d|0\.\d\d$/" required/>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-2 am-form-label">晚餐</label>
+                      <div class="am-u-sm-2" ng-class="{true:'am-u-end'}[room.dinner<2]">
+                        <select ng-model="room.dinner" ng-options="type.id as type.name for type in mealTypes">
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label" ng-if="room.dinner>1">餐费</label>
+                      <div class="am-u-sm-2 am-u-end" ng-if="room.dinner>1">
+                        <input type="text" class="am-form-field" ng-model="room.priced" ng-pattern="/^[1-9]\d?\d?\.\d\d|0\.\d\d$/" required/>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-top-lg am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">便利设施
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">厨房</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.kitchen">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">电视</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.TV">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">网络</label>
+                      <div class="am-u-sm-4 am-u-end">
+                        <select ng-model="room.internet" ng-options="type.id as type.name for type in internetTypes">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">生活必需品</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.essentials">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">洗发香波</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.shampoo">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">电吹风</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.hairdryer">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">浴缸</label>
+                      <div class="am-u-sm-3 am-u-end">
+                        <select ng-model="room.tub" ng-options="type.id as type.name for type in tubTypes">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">洗衣机</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.washer">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">烘干机</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.dryer">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">晾衣架</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.hangers">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">电熨斗</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.iron">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">停车</label>
+                      <div class="am-u-sm-4 am-u-end">
+                        <select ng-model="room.parking" ng-options="type.id as type.name for type in parkingTypes">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">空调</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.aircon">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">暖气</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.heating">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">吸烟</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.smoking">
+                          <option value="0">不可</option>
+                          <option value="1">可以</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">儿童</label>
+                      <div class="am-u-sm-3 am-u-end">
+                        <select ng-model="room.kids">
+                          <option value="0">不欢迎</option>
+                          <option value="1">欢迎</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">宠物</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.pet">
+                          <option value="0">不可</option>
+                          <option value="1">允许</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">举办活动</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.events">
+                          <option value="0">不可</option>
+                          <option value="1">可以</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">无障碍设施</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.wheelchair">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">大楼电梯</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.elevator">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">壁炉</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.fireplace">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">办公桌</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.workspace">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">游泳池</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.pool">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">健身房</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.gym">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">门铃/对讲机</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.intercom">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">门卫</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.doorman">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-top-lg am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">价格及费用
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">价格(每晚)</label>
+                      <div class="am-u-sm-2">
+                        <input type="text" class="am-form-field" ng-model="room.price" ng-pattern="/^[1-9]\d{0,4}\.\d\d$/" required/>
+                      </div>
+                      <label class="am-u-sm-3 am-form-label">货币</label>
+                      <div class="am-u-sm-3 am-u-end">
+                        <select ng-model="room.currency" ng-options="currency.id as currency.name for currency in currencies">
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">额外成人(每晚)</label>
+                      <div class="am-u-sm-2">
+                        <input type="text" class="am-form-field" ng-model="room.extrapeople" ng-pattern="/^[1-9]\d{0,3}\.\d\d|0\.00$/" />
+                      </div>
+                      <label class="am-u-sm-3 am-form-label">额外儿童(每晚)</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <input type="text" class="am-form-field" ng-model="room.extrachild" ng-pattern="/^[1-9]\d{0,3}\.\d\d|0\.00$/" />
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">额外婴儿(每晚)</label>
+                      <div class="am-u-sm-2">
+                        <input type="text" class="am-form-field" ng-model="room.extrainfant" ng-pattern="/^[1-9]\d{0,3}\.\d\d|0\.00$/" />
+                      </div>
+                      <label class="am-u-sm-3 am-form-label">清洁费</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <input type="text" class="am-form-field" ng-model="room.cleaning" ng-pattern="/^[1-9]\d{0,2}\.\d\d|0\.00$/" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-top-lg am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">安全设施
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">烟雾探测器</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.smoke">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-3 am-form-label">一氧化碳探测器</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.carbon">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">急救包</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.aidkit">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-u-sm-offset-1 am-form-label">灭火器</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.extinguisher">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">房间锁</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.roomlock">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-u-sm-offset-1 am-form-label">门卡</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.safetycard">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">保险箱</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.safe">
+                          <option value="0">无</option>
+                          <option value="1">有</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-panel am-panel-default am-margin-top-lg am-margin-left-lg am-margin-bottom-lg am-margin-right-lg">
+                  <div class="am-panel-hd">
+                    <div class="z5j-row">
+                      <div class="am-margin-left-sm">最短租期
+                      </div>
+                    </div>
+                  </div>
+                  <div class="am-panel-bd">
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-form-label">至少住</label>
+                      <div class="am-u-sm-2">
+                        <select ng-model="room.availability">
+                          <option value="1">1晚 </option>
+                          <option value="2">2晚 </option>
+                          <option value="3">3晚 </option>
+                          <option value="4">4晚 </option>
+                          <option value="5">5晚 </option>
+                          <option value="6">6晚 </option>
+                          <option value="7">7晚 </option>
+                          <option value="8">8晚 </option>
+                          <option value="9">9晚 </option>
+                          <option value="10">10晚 </option>
+                          <option value="14">2周 </option>
+                          <option value="30">1个月 </option>
+                        </select>
+                      </div>
+                      <label class="am-u-sm-2 am-u-sm-offset-1 am-form-label">长租</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.longterm">
+                          <option value="0">不可</option>
+                          <option value="1">可以</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <label class="am-u-sm-3 am-u-end am-form-label">特别时间段</label>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-xs">
+                      <div class="am-u-sm-5 am-u-sm-offset-1">
+                        <div class="z5j-inline-block">
+                          <input type="text" class="am-form-field" ng-blur="checkDate(this, 'availabilityfrom1')" ng-model="room.availabilityfrom1" />
+                        </div>
+                        <div class="z5j-inline-label">至</div>
+                        <div class="z5j-inline-block">
+                          <input type="text" class="am-form-field" ng-blur="checkDate(this, 'availabilityto1')" ng-model="room.availabilityto1" />
+                        </div>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">至少住</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.specialavailability1">
+                          <option value="0"> </option>
+                          <option value="1">1晚 </option>
+                          <option value="2">2晚 </option>
+                          <option value="3">3晚 </option>
+                          <option value="4">4晚 </option>
+                          <option value="5">5晚 </option>
+                          <option value="6">6晚 </option>
+                          <option value="7">7晚 </option>
+                          <option value="8">8晚 </option>
+                          <option value="9">9晚 </option>
+                          <option value="10">10晚 </option>
+                          <option value="14">2周 </option>
+                          <option value="30">1个月 </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <div class="am-u-sm-5 am-u-sm-offset-1">
+                        <div class="z5j-inline-block">
+                          <input type="text" class="am-form-field" ng-blur="checkDate(this, 'availabilityfrom2')" ng-model="room.availabilityfrom2" />
+                        </div>
+                        <div class="z5j-inline-label">至</div>
+                        <div class="z5j-inline-block">
+                          <input type="text" class="am-form-field" ng-blur="checkDate(this, 'availabilityto2')" ng-model="room.availabilityto2" />
+                        </div>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">至少住</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.specialavailability2">
+                          <option value="0"> </option>
+                          <option value="1">1晚 </option>
+                          <option value="2">2晚 </option>
+                          <option value="3">3晚 </option>
+                          <option value="4">4晚 </option>
+                          <option value="5">5晚 </option>
+                          <option value="6">6晚 </option>
+                          <option value="7">7晚 </option>
+                          <option value="8">8晚 </option>
+                          <option value="9">9晚 </option>
+                          <option value="10">10晚 </option>
+                          <option value="14">2周 </option>
+                          <option value="30">1个月 </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                      <div class="am-u-sm-5 am-u-sm-offset-1">
+                        <div class="z5j-inline-block">
+                          <input type="text" class="am-form-field" ng-blur="checkDate(this, 'availabilityfrom3')" ng-model="room.availabilityfrom3" />
+                        </div>
+                        <div class="z5j-inline-label">至</div>
+                        <div class="z5j-inline-block">
+                          <input type="text" class="am-form-field" ng-blur="checkDate(this, 'availabilityto3')" ng-model="room.availabilityto3" />
+                        </div>
+                      </div>
+                      <label class="am-u-sm-2 am-form-label">至少住</label>
+                      <div class="am-u-sm-2 am-u-end">
+                        <select ng-model="room.specialavailability3">
+                          <option value="0"> </option>
+                          <option value="1">1晚 </option>
+                          <option value="2">2晚 </option>
+                          <option value="3">3晚 </option>
+                          <option value="4">4晚 </option>
+                          <option value="5">5晚 </option>
+                          <option value="6">6晚 </option>
+                          <option value="7">7晚 </option>
+                          <option value="8">8晚 </option>
+                          <option value="9">9晚 </option>
+                          <option value="10">10晚 </option>
+                          <option value="14">2周 </option>
+                          <option value="30">1个月 </option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="am-u-sm-6 am-u-sm-centered am-margin-left-lg am-margin-bottom-lg am-margin-right-lg" ng-if="room.status==0&&roomNo<2">
+                  <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="roomform{{room.id}}.$invalid||!roomform{{room.id}}.$dirty">保 存 修 改</button>
+                </div>
+                <div class="am-form-group am-margin-top-lg" ng-if="room.status>0||(room.status==0&&roomNo>1)">
+                  <div class="am-u-sm-6 am-u-sm-offset-1">
+                    <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="roomform{{room.id}}.$invalid||!roomform{{room.id}}.$dirty">保 存 修 改</button>
+                  </div>
+                  <div class="am-u-sm-2" ng-if="room.status==0">
+                    <button class="am-btn am-btn-warning am-radius am-btn-block" ng-click="hideRoom(true, room)">隐 藏</button>
+                  </div>
+                  <div class="am-u-sm-2" ng-if="room.status==9">
+                    <button class="am-btn am-btn-warning am-radius am-btn-block" ng-click="hideRoom(false, room)">公 开</button>
+                  </div>
+                  <div class="am-u-sm-2 am-u-end">
+                    <button class="am-btn am-btn-danger am-radius am-btn-block" ng-click="openPopup('deleteroom', room.name)">删 除</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!-- 我的订单 -->
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='mybooking'">
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <div class="am-panel-hd">
+            <div class="z5j-row">
+              <div class="am-margin-sm">最近没人预订我的房间
+              </div>
+            </div>
+          </div>
+          <div class="am-panel-bd">
+            <div class="z5j-row">
+              <div class="am-margin-sm">
+                <a>过去的预订</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+<!-- 预订条件 -->
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='condition'">
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <div class="am-panel-hd">
+            <div class="z5j-row">
+              <div class="am-margin-sm">谁可以预订我的房间
+              </div>
+            </div>
+          </div>
+          <div class="am-panel-bd">
+            <div class="am-margin-top-sm am-margin-left-sm">
+              <p>房客在预订我的房间之前需要验证他的身份。
+                <a target="_blank" href="">了解更多</a>
+              </p>
+              <p>我必须先 <a href="#/user/me/verification/">验证自己的身份</a>，才能要求房客验证他的身份！
+              </p>
+              <div class="am-checkbox am-margin-top-0 am-margin-bottom-lg">
+                <label>
+                  <input type="checkbox" ng-model="needverify">要求房客进行验证
+                </label>
+              </div>
+              <button type="submit" class="am-btn am-btn-secondary am-radius" ng-click="saveCondition()">保存预订条件</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="z5j-content-background-default" ng-if="newHouse">
+  <div class="z5j-page-container am-padding-top-lg am-padding-bottom-lg">
+    <div class="am-g" ng-if="step==0">
+      <div class="am-u-sm-7">
+        <div class="z5j-h1 am-margin-top-xl am-margin-bottom">成为《住我家》的房东
+        </div>
+        <div class="z5j-text-muted am-margin-bottom-lg">从创建房源页面开始吧，这将是您的房子的个人主页。
+        </div>
+        <hr>
+        <div class="z5j-h6 z5j-text-muted am-margin-top-lg am-margin-bottom">第一步
+        </div>
+        <div class="am-g">
+          <div class="am-u-sm-8">
+            <div class="z5j-h3 am-margin-bottom-sm">从房屋的基本信息开始
+            </div>
+          </div>
+          <div class="am-u-sm-2 am-u-end">
+            <i class="am-secondary am-icon-lg am-icon-check-circle" ng-if="step>1"></i>
+          </div>
+        </div>
+        <div class="z5j-text-muted am-margin-bottom-xl">房屋类型、地址等等
+        </div>
+        <div class="am-progress am-progress-md" ng-if="step>0">
+          <div class="am-progress-bar" style="width:5%" ng-if="step==1&&currentSubstep==1"></div>
+          <div class="am-progress-bar" style="width:45%" ng-if="step=1&&currentSubstep==2"></div>
+          <div class="am-progress-bar" style="width:50%" ng-if="step==1&&currentSubstep==3"></div>
+          <div class="am-progress-bar" style="width:75%" ng-if="step==1&&currentSubstep==4"></div>
+        </div>
+        <button class="am-btn am-btn-primary am-radius am-btn-default am-margin-bottom-xl" ng-click="goNext(true)" ng-if="currentHouse.status==0">继 续</button>
+        <a class="z5j-text-muted am-margin-bottom-xl" ng-click="goNext(true)" ng-if="currentHouse.status>0">修 改</a>
+        <hr>
+        <div class="z5j-h6 z5j-text-muted am-margin-top-lg am-margin-bottom">第二步
+        </div>
+        <div class="z5j-h3 am-margin-bottom-sm">展示自己的特色
+        </div>
+        <div class="z5j-text-muted" ng-class="{true:'am-margin-bottom-sm',false:'am-margin-bottom-xl'}[currentHouse.status>=1]">照片、简短描述、标题
+        </div>
+        <div class="am-progress am-progress-md" ng-if="step>1">
+          <div class="am-progress-bar" style="width:5%" ng-if="step==2&&currentSubstep==1"></div>
+          <div class="am-progress-bar" style="width:45%" ng-if="step=2&&currentSubstep==2"></div>
+          <div class="am-progress-bar" style="width:50%" ng-if="step==2&&currentSubstep==3"></div>
+          <div class="am-progress-bar" style="width:75%" ng-if="step==2&&currentSubstep==4"></div>
+          <div class="am-progress-bar" style="width:100%" ng-if="step>2"></div>
+        </div>
+        <button class="am-btn am-btn-primary am-radius am-btn-default am-margin-bottom-xl" ng-click="goNext(true)" ng-if="currentHouse.status==1">继 续</button>
+        <button class="am-btn am-btn-primary am-radius am-btn-default am-margin-bottom-xl" ng-click="goNext(true)" ng-if="currentHouse.status>1">修 改</button>
+        <hr>
+        <div class="z5j-h6 z5j-text-muted am-margin-top-lg am-margin-bottom">第三步
+        </div>
+        <div class="z5j-h3 am-margin-bottom-sm">准备好迎接客人的到来
+        </div>
+        <div class="z5j-text-muted" ng-class="{true:'am-margin-bottom-sm',false:'am-margin-bottom-xl'}[currentHouse.status==2]">价格、日历、预订设置
+        </div>
+        <button class="am-btn am-btn-primary am-radius am-btn-default am-margin-bottom-xl" ng-click="goNext(true)" ng-if="currentHouse.status==2">继 续</button>
+        <button class="am-btn am-btn-primary am-radius am-btn-default am-margin-bottom-xl" ng-click="goNext(true)" ng-if="currentHouse.status>2">修 改</button>
+      </div>
+      <div class="am-u-sm-5">
+      </div>
+    </div>
+    <div class="am-g am-margin-bottom-lg" ng-if="step>0">
+      <div class="am-u-sm-8">
+        <div class="z5j-h3 z5j-text-muted">
+          <small ng-if="step==1">第一步:  从房屋的基本信息开始
+          </small>
+          <small ng-if="step==2">第二步:  展示自己的特色
+          </small>
+          <small ng-if="step==3">第三步:  准备好迎接客人的到来
+          </small>
+        </div>
+      </div>
+      <div class="am-u-sm-2 am-u-sm-offset-2">
+        <a ng-click="saveNew('room')" ng-if="step==1">保存并退出</a>
+        <a ng-click="saveNew('house')" ng-if="step==2">保存并退出</a>
+        <a ng-click="saveNew('schedule')" ng-if="step==3">保存并退出</a>
+      </div>
+    </div>
+    <div class="am-progress am-progress-xs" ng-if="step>0">
+      <div class="am-progress-bar" style="width:5%" ng-if="substep==0"></div>
+      <div class="am-progress-bar" style="width:25%" ng-if="substep==1"></div>
+      <div class="am-progress-bar" style="width:50%" ng-if="substep==2"></div>
+      <div class="am-progress-bar" style="width:75%" ng-if="substep==3"></div>
+      <div class="am-progress-bar" style="width:100%" ng-if="substep==4"></div>
+    </div>
+    <div class="am-g" ng-if="step==1&&substep==0">
+      <div class="am-u-sm-7">
+        <form name="form10" class="am-form" ng-submit="goNext(false)" novalidate>
+          <div class="am-form-group am-g am-margin-top-xl">
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom">您出租的是什么样的房子？</label>
+            <div class="am-u-sm-8 am-u-end">
+              <select ng-model="currentHouse.type" ng-options="type.id as type.name for type in houseTypes" ng-change="initRooms()">
+              </select>
+            </div>
+          </div>
+          <div class="am-form-group am-g am-margin-top-xl">
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom" ng-if="currentHouse.type<6">您准备出租几个房间和公用空间？</label>
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom" ng-if="currentHouse.type>5">您出租的房子有多少房间和公用空间？</label>
+            <div class="am-u-sm-8 am-u-end">
+              <select ng-model="currentHouse.rooms" ng-change="initRooms()">
+                <option value="1">1间房间/公用空间 </option>
+                <option value="2">2间房间/公用空间 </option>
+                <option value="3">3间房间/公用空间 </option>
+                <option value="4">4间房间/公用空间 </option>
+                <option value="5">5间房间/公用空间 </option>
+                <option value="6">6间房间/公用空间 </option>
+                <option value="7">7间房间/公用空间 </option>
+                <option value="8">8间房间/公用空间 </option>
+                <option value="9">9间房间/公用空间及以上</option>
+              </select>
+            </div>
+          </div>
+          <div class="am-form-group am-g am-margin-top-xl">
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom-sm">您是这房子的</label>
+            <div class="z5j-radio am-u-sm-4 am-u-end">
+              <div class="am-radio">
+                <input type="radio" name="radio-owner" value="1" ng-model="isowner">房东
+              </div>
+              <div class="am-radio" ng-model="isowner">
+                <input type="radio" name="radio-owner" value="0" ng-model="isowner">代理
+              </div>
+            </div>
+          </div>
+          <div class="am-form-group am-margin-top-xl ">
+            <div class="am-u-sm-3">
+              <a class="" ng-click="goPrevious(true)">
+                <i class="am-icon-arrow-left"> 返回</i>
+              </a>
+            </div>
+            <div class="am-u-sm-4 am-u-sm-offset-1 am-u-end">
+              <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="form10.$invalid">下 一 步</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="am-u-sm-5">
+        <div class="am-g am-g am-margin-top-xl">
+          <div class="am-u-sm-8 am-u-end">
+            <div class="am-panel am-panel-default">
+              <div class="am-panel-bd">
+                <i class="am-icon-md am-secondary am-icon-lightbulb-o"></i>
+                <div class="z5j-h4 am-margin-top am-margin-bottom-sm">整间公寓和整栋别墅
+                </div>
+                <div class="z5j-text-muted am-margin-bottom">房客需要租下整套房子，包括其中的所有房间及设施。
+                </div>
+                <div class="z5j-h4 am-margin-top am-margin-bottom-sm">其他类型的房屋
+                </div>
+                <div class="z5j-text-muted am-margin-bottom">屋内的房间和空间分别出租，房客可以租用单独的房间或公用的空间。
+                </div>
+                <div class="z5j-h4 am-margin-top am-margin-bottom-sm">公用空间
+                </div>
+                <div class="z5j-text-muted am-margin-bottom">像起居室这样的公用空间，如果足够大，您也可以放置一个沙发床让房客睡觉。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="am-g" ng-if="step==1&&substep==1">
+      <div class="am-u-sm-7">
+        <form name="form11" class="am-form" ng-submit="goNext(false)" novalidate>
+          <div class="am-form-group am-g am-margin-top-xl">
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom">您的房子位于何处？</label>
+            <div class="am-u-sm-6" ng-class="{true:'am-u-end'}[provinces.length==0]">
+              <div class="am-form-label am-margin-bottom-sm">国家</div>
+              <select ng-model="currentHouse.country" ng-options="country.id as country.name for country in countries" ng-change="changeCountry()">
+              </select>
+            </div>
+            <div class="am-u-sm-6" ng-if="provinces.length>0">
+              <div class="am-form-label am-margin-bottom-sm">省/州</div>
+              <select ng-model="currentHouse.province" ng-options="province.id as province.name for province in provinces" ng-change="changeProvince()">
+              </select>
+            </div>
+          </div>
+          <div class="am-form-group am-g am-margin-top">
+            <div class="am-u-sm-6" ng-class="{true:'am-u-end'}[districts.length==0]">
+              <div class="am-form-label am-margin-bottom-sm">城市</div>
+              <select ng-model="currentHouse.city" ng-options="city.id as city.name for city in cities" ng-change="changeCity()">
+              </select>
+            </div>
+            <div class="am-u-sm-6" ng-if="districts.length>0">
+              <div class="am-form-label am-margin-bottom-sm">区县</div>
+              <select ng-model="currentHouse.district" ng-options="district.id as district.name for district in districts">
+              </select>
+            </div>
+          </div>
+          <div class="am-form-group am-g am-margin-top">
+            <div class="am-u-sm-12">
+              <div class="am-form-label am-margin-bottom-sm">地址</div>
+              <input type="text" placeholder="例如，淮海中路88号 / 王府井大街8号" ng-model="currentHouse.address" required/>
+            </div>
+          </div>
+          <div class="am-form-group am-g am-margin-top">
+            <div class="am-u-sm-6">
+              <div class="am-form-label am-margin-bottom-sm">邮编</div>
+              <input type="text" placeholder="200001" ng-model="currentHouse.zip"/>
+            </div>
+            <div class="am-u-sm-6" ng-if="districts.length>0">
+              <div class="am-form-label am-margin-bottom-sm">建筑(小区)名</div>
+              <input type="text" placeholder="例如，新天地 / 王府井" ng-model="currentHouse.name"/>
+            </div>
+          </div>
+          <div class="am-form-group am-margin-top-xl ">
+            <div class="am-u-sm-3">
+              <a class="" ng-click="goPrevious(false)">
+                <i class="am-icon-arrow-left"> 返回</i>
+              </a>
+            </div>
+            <div class="am-u-sm-4 am-u-sm-offset-1 am-u-end">
+              <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="form11.$invalid">下 一 步</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="am-u-sm-5">
+        <div class="am-g am-g am-margin-top-xl">
+          <div class="am-u-sm-8 am-u-end">
+            <div class="am-panel am-panel-default">
+              <div class="am-panel-bd">
+                <i class="am-icon-md am-secondary am-icon-lightbulb-o"></i>
+                <div class="z5j-text-muted am-margin-bottom">我们只会和已确认预订的房客分享您的具体地址。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="am-g" ng-if="step==1&&substep==2">
+      <div class="am-u-sm-7">
+        <form name="form12" class="am-form" ng-submit="goNext(false)" novalidate>
+          <div class="am-form-group am-g am-margin-top-xl" ng-if="currentHouse.type<6">
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom">为您每间房起个名字吧</label>
+            <div ng-repeat="room in houseRooms">
+              <div class="am-u-sm-8 am-u-end am-margin-bottom-sm">
+                <input type="text" placeholder="主卧、次卧、客厅、东向房间..." ng-model="room.name" required/>
+              </div>
+            </div>
+          </div>
+          <div class="am-form-group am-g am-margin-top-xl" ng-if="currentHouse.type>5">
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom" ng-if="currentHouse.type==6">您的整间公寓里一共有几张床？</label>
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom" ng-if="currentHouse.type==7">您的整栋别墅里一共有几张床？</label>
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom" ng-if="currentHouse.type==8">您的小木屋里一共有几张床？</label>
+            <div class="am-u-sm-8 am-u-end">
+              <div class="z5j-count-widget">
+                <div class="z5j-count-block">
+                  <div class="z5j-count-text">{{houseRooms[0].beds}}张床
+                  </div>
+                </div>
+                <div class="z5j-count-block">
+                  <a class="am-btn am-icon-plus" ng-click="plusOne(houseRooms[0], 'beds')"></a>
+                </div>
+                <div class="z5j-count-block">
+                  <a class="am-btn am-icon-minus" ng-click="minusOne(houseRooms[0], 'beds')"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="am-form-group am-g am-margin-top-xl" ng-if="currentHouse.type>5">
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom">一共有几个卫生间？</label>
+            <div class="am-u-sm-8 am-u-end">
+              <div class="z5j-count-widget">
+                <div class="z5j-count-block">
+                  <div class="z5j-count-text">{{houseRooms[0].bathroom}}个卫生间
+                  </div>
+                </div>
+                <div class="z5j-count-block">
+                  <a class="am-btn am-icon-plus" ng-click="plusOne(houseRooms[0], 'bathroom')"></a>
+                </div>
+                <div class="z5j-count-block">
+                  <a class="am-btn am-icon-minus" ng-click="minusOne(houseRooms[0], 'bathroom')"></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="am-form-group am-margin-top-xl ">
+            <div class="am-u-sm-3">
+              <a class="" ng-click="goPrevious(false)">
+                <i class="am-icon-arrow-left"> 返回</i>
+              </a>
+            </div>
+            <div class="am-u-sm-4 am-u-sm-offset-1 am-u-end">
+              <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="form12.$invalid">下 一 步</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="am-u-sm-5">
+        <div class="am-g am-g am-margin-top-xl">
+          <div class="am-u-sm-8 am-u-end">
+            <div class="am-panel am-panel-default">
+              <div class="am-panel-bd">
+                <i class="am-icon-md am-secondary am-icon-lightbulb-o"></i>
+                <div class="z5j-text-muted am-margin-bottom" ng-if="currentHouse.type<6">为您的每间房间/空间取个名字，可以方便房客和您区分每个房间。
+                </div>
+                <div class="z5j-text-muted am-margin-bottom" ng-if="currentHouse.type>5">作为整体出租，您只需告诉房客有多少床，以便他们估计人数。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="am-g" ng-if="step==1&&substep==3">
+      <div class="am-u-sm-7">
+        <form name="form13" class="am-form" ng-submit="goNext(false)" novalidate>
+          <div class="am-form-group am-g am-margin-top-xl" ng-if="currentHouse.type<6">
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom" ng-if="houseRooms.length>1">每间房间和空间内的设施</label>
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom" ng-if="houseRooms.length==1">房间和空间内的设施</label>
+            <div class="am-u-sm-8 am-u-end" ng-if="houseRooms.length>1">
+              <select ng-model="currentRoom" ng-options="room.id as room.name for room in houseRooms" ng-change="switchRoom(room.id)">
+              </select>
+            </div>
+          </div>
+          <div class="" ng-class="{true:'am-active'}[currentRoom==room.id]" ng-repeat="room in houseRooms">
+            <div class="am-panel am-panel-default am-margin-top-lg am-margin-bottom-lg">
+              <div class="am-panel-hd">
+                <div class="z5j-row">
+                  <div class="am-margin-left-sm">房间(空间)基本信息
+                  </div>
+                </div>
+              </div>
+              <div class="am-panel-bd">
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-2 am-form-label">* 房间</label>
+                  <div class="am-u-sm-4">
+                    <input type="text" class="am-form-field" ng-model="room.name" required/>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">类型</label>
+                  <div class="am-u-sm-4">
+                    <select ng-model="room.type" ng-options="type.id as type.name for type in roomTypes">
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <i class="am-u-sm-2 am-form-label am-icon-user am-icon-md"></i>
+                  <div class="am-u-sm-3 am-u-end">
+                    <select ng-model="room.person">
+                      <option value="1">1位成人 </option>
+                      <option value="2">2位成人 </option>
+                      <option value="3">3位成人 </option>
+                      <option value="4">4位成人 </option>
+                      <option value="5">5位成人 </option>
+                      <option value="6">6位成人 </option>
+                      <option value="7">7位成人 </option>
+                      <option value="8">8位成人 </option>
+                      <option value="9">9位及以上</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <i class="am-u-sm-2 am-form-label am-icon-male am-icon-md"></i>
+                  <div class="am-u-sm-3">
+                    <select ng-model="room.child">
+                      <option value="0"> </option>
+                      <option value="1">1位儿童 </option>
+                      <option value="2">2位儿童 </option>
+                      <option value="3">3位儿童 </option>
+                      <option value="4">4位儿童 </option>
+                      <option value="5">5位儿童 </option>
+                      <option value="6">6位儿童 </option>
+                      <option value="7">7位儿童 </option>
+                      <option value="8">8位儿童 </option>
+                      <option value="9">9位及以上</option>
+                    </select>
+                  </div>
+                  <i class="am-u-sm-2 am-u-sm-offset-1 am-form-label am-icon-child am-icon-md"></i>
+                  <div class="am-u-sm-3 am-u-end">
+                    <select ng-model="room.infant">
+                      <option value="0"> </option>
+                      <option value="1">1位婴儿 </option>
+                      <option value="2">2位婴儿 </option>
+                      <option value="3">3位婴儿 </option>
+                      <option value="4">4位婴儿 </option>
+                      <option value="5">5位婴儿 </option>
+                      <option value="6">6位婴儿 </option>
+                      <option value="7">7位婴儿 </option>
+                      <option value="8">8位婴儿 </option>
+                      <option value="9">9位及以上</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-2 am-form-label">床位</label>
+                  <div class="am-u-sm-4">
+                    <select ng-model="room.beds" ng-options="type.id as type.name for type in bedTypes">
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">卫生间</label>
+                  <div class="am-u-sm-4">
+                    <select ng-model="room.bathroom" ng-options="type.id as type.name for type in bathroomTypes">
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="am-panel am-panel-default am-margin-top-lg am-margin-bottom-lg">
+              <div class="am-panel-hd">
+                <div class="z5j-row">
+                  <div class="am-margin-left-sm">便利设施
+                  </div>
+                </div>
+              </div>
+              <div class="am-panel-bd">
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">厨房</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.kitchen">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">电视</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.TV">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">网络</label>
+                  <div class="am-u-sm-4 am-u-end">
+                    <select ng-model="room.internet" ng-options="type.id as type.name for type in internetTypes">
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">生活必需品</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.essentials">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">洗发香波</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.shampoo">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">电吹风</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.hairdryer">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">浴缸</label>
+                  <div class="am-u-sm-3 am-u-end">
+                    <select ng-model="room.tub" ng-options="type.id as type.name for type in tubTypes">
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">洗衣机</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.washer">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">烘干机</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.dryer">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">晾衣架</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.hangers">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">电熨斗</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.iron">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">停车</label>
+                  <div class="am-u-sm-4 am-u-end">
+                    <select ng-model="room.parking" ng-options="type.id as type.name for type in parkingTypes">
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">空调</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.aircon">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">暖气</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.heating">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">吸烟</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.smoking">
+                      <option value="0">不可</option>
+                      <option value="1">可以</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">儿童</label>
+                  <div class="am-u-sm-3 am-u-end">
+                    <select ng-model="room.kids">
+                      <option value="0">不欢迎</option>
+                      <option value="1">欢迎</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">宠物</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.pet">
+                      <option value="0">不可</option>
+                      <option value="1">允许</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">举办活动</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.events">
+                      <option value="0">不可</option>
+                      <option value="1">可以</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">无障碍设施</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.wheelchair">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">大楼电梯</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.elevator">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">壁炉</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.fireplace">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">办公桌</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.workspace">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">游泳池</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.pool">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">健身房</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.gym">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">门铃/对讲机</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.intercom">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-form-label">门卫</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.doorman">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="am-panel am-panel-default am-margin-top-lg am-margin-bottom-lg">
+              <div class="am-panel-hd">
+                <div class="z5j-row">
+                  <div class="am-margin-left-sm">安全设施
+                  </div>
+                </div>
+              </div>
+              <div class="am-panel-bd">
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">烟雾探测器</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.smoke">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-3 am-form-label">一氧化碳探测器</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.carbon">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">急救包</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.aidkit">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-u-sm-offset-1 am-form-label">灭火器</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.extinguisher">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">房间锁</label>
+                  <div class="am-u-sm-2">
+                    <select ng-model="room.roomlock">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                  <label class="am-u-sm-2 am-u-sm-offset-1 am-form-label">门卡</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.safetycard">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                  <label class="am-u-sm-3 am-form-label">保险箱</label>
+                  <div class="am-u-sm-2 am-u-end">
+                    <select ng-model="room.safe">
+                      <option value="0">无</option>
+                      <option value="1">有</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="am-form-group am-margin-top-xl ">
+            <div class="am-u-sm-3">
+              <a class="" ng-click="goPrevious(false)">
+                <i class="am-icon-arrow-left"> 返回</i>
+              </a>
+            </div>
+            <div class="am-u-sm-4 am-u-sm-offset-1 am-u-end">
+              <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="form13.$invalid">下 一 步</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="am-u-sm-5">
+        <div class="am-g am-g am-margin-top-xl">
+          <div class="am-u-sm-8 am-u-end">
+            <div class="am-panel am-panel-default">
+              <div class="am-panel-bd">
+                <i class="am-icon-md am-secondary am-icon-lightbulb-o"></i>
+                <div class="z5j-text-muted am-margin-bottom" ng-if="currentHouse.type<6">为您的每间房间/空间取个名字，可以方便房客和您区分每个房间。
+                </div>
+                <div class="z5j-text-muted am-margin-bottom" ng-if="currentHouse.type>5">作为整体出租，您只需告诉房客有多少床，以便他们估计人数。
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="am-g" ng-if="step==3&&substep==2">
+      <div class="am-u-sm-7">
+        <form name="form32" class="am-form" ng-submit="goNext(true)" novalidate>
+          <div class="am-form-group am-g am-margin-top-xl">
+            <label class="z5j-h3 am-u-sm-12 am-margin-bottom">您希望客人几点之后入住，几点之前退房？</label>
+            <div class="am-u-sm-8 am-u-end">
+              <div class="am-form-label am-margin-bottom-sm">入住时间</div>
+            </div>
+            <div class="am-u-sm-8 am-u-end">
+              <div class="z5j-inline-block">
+                <select ng-model="currentHouse.checkinfrom" ng-options="time.id as time.name for time in generalTimes" ng-change="adjustCheckinTo()">
+                </select>
+              </div>
+              <div class="z5j-inline-label" style="margin-top:0">至 </div>
+              <div class="z5j-inline-block">
+                <select ng-model="currentHouse.checkinto" ng-options="time.id as time.name for time in checkinToTimes">
+                </select>
+              </div>
+            </div>
+            <div class="am-u-sm-8 am-u-end am-margin-top">
+              <div class="am-form-label am-margin-bottom-sm">退房时间</div>
+            </div>
+            <div class="am-u-sm-8 am-u-end">
+              <div class="z5j-inline-block">
+                <select ng-model="currentHouse.checkoutfrom" ng-options="time.id as time.name for time in checkoutFromTimes">
+                </select>
+              </div>
+              <div class="z5j-inline-label" style="margin-top:0">至 </div>
+              <div class="z5j-inline-block">
+                <select ng-model="currentHouse.checkoutto" ng-options="time.id as time.name for time in generalTimes" ng-change="adjustCheckoutFrom()">
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="am-form-group am-margin-top-xl">
+            <div class="am-u-sm-3">
+              <a class="" ng-click="goPrevious(false)">
+                <i class="am-icon-arrow-left"> 返回</i>
+              </a>
+            </div>
+            <div class="am-u-sm-4 am-u-sm-offset-1 am-u-end">
+              <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="form32.$invalid">下 一 步</button>
+            </div>
+          </div>
+        </form>
+        </div>
+      <div class="am-u-sm-5">
+        <div class="am-g am-g am-margin-top-xl">
+          <div class="am-u-sm-8 am-u-end">
+            <div class="am-panel am-panel-default">
+              <div class="am-panel-bd">
+                <i class="am-icon-md am-secondary am-icon-lightbulb-o"></i>
+                <div class="z5j-text-muted am-margin-bottom">客人可以在您指定的时间段里入住或退房。
+                </div>              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="confirm" class="am-modal" tabindex="-1">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd am-margin-bottom">{{confirmWhat}}
+    </div>
+    <div class="am-modal-bd">
+      <div class="am-u-sm-12 z5j-text-muted am-margin-bottom">{{alertContent}}
+      </div>
+      <div class="am-u-sm-8 am-u-sm-centered">
+        <button class="am-btn am-btn-danger am-radius am-btn-block" ng-click="removeRoom()" ng-if="confirmAction=='deleteroom'">确 认 删 除</button>
+        <button class="am-btn am-btn-danger am-radius am-btn-block" ng-click="removeHouse()" ng-if="confirmAction=='deletehouse'">确 认 删 除</button>
+      </div>
+    </div>
+  </div>
+</div>

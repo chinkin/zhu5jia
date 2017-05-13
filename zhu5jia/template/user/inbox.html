@@ -1,0 +1,119 @@
+<div class="z5j-division">
+  <div class="z5j-page-container">
+    <ul class="am-nav z5j-nav-tabs">
+      <li><a href="#/user/dashboard">控制面板</a></li>
+      <li class="z5j-active"><a>收件箱</a></li>
+      <li><a href="#/user/room//">我的房源</a></li>
+      <li><a href="#/user/trip//">我的旅程</a></li>
+      <li><a href="#/user/me//">我的资料</a></li>
+      <li><a href="#/user/account//">我的账号</a></li>
+    </ul>
+  </div>
+</div>
+<div class="z5j-content-background-default">
+  <div class="z5j-page-container am-padding-top-lg am-padding-bottom-lg">
+    <div class="am-panel am-panel-default am-margin-bottom-lg">
+      <div class="am-panel-hd">
+        <select class="z5j-panel-hd-select" ng-model="currentType" ng-options="type.id as (type.name + ' (' + type.account + ')') for type in types" ng-change="changeType()">
+        </select>
+        <span class="am-form-caret"></span>
+      </div>
+      <div class="z5j-panel-bd" ng-if="types[currentType].noMessage">
+        <span class="z5j-h4" ng-if="types[0].noMessage">
+          <small>如果您发消息给房东或租客，您将会在这里看到他们的回复。</small>
+        </span>
+        <span class="z5j-h4" ng-if="types[currentType].noMessage">
+          <small>没有{{types[currentType].name}}短信</small>
+        </span>
+      </div>
+      <table class="am-table am-table-striped" ng-if="!types[currentType].noMessage">
+        <tr ng-repeat="message in me.messages" ng-if="currentType=='0'||(currentType=='1'&&message.marked)||(currentType=='2'&&!message.read)||(currentType=='3'&&message.type==1)||(currentType=='4'&&message.type==2)||(currentType=='5'&&message.status==9)">
+          <td>
+            <div class="am-g" ng-if="currentMessage!=message.id">
+              <div class="am-u-sm-9">
+                <span class="am-icon-envelope-o" ng-if="(message.status==1&&message.fromuser==me.users.id)||(message.status==2&&message.touser==me.users.id)">
+                </span>
+                <span>
+                  <a class="am-icon-star" ng-class="{true:'z5j-star-icon-beach',false:'z5j-star-icon-gray'}[message.mark==3||(message.mark==1&&message.fromuser==me.users.id)||(message.mark==2&&message.touser==me.users.id)]" ng-click="markMessage(message)"></a>
+                </span>
+                <span>
+                  <a ng-click="openMessage(message)">{{message.title | maxString: 70}}</a>
+                </span>
+              </div>
+              <div class="am-u-sm-3">
+                <span class="am-align-right">{{message.replytime | dbtimeConvert: "MM/YY HH:MM"}}</span>
+                <span class="am-align-right" ng-if="message.fromuser!=me.users.id">来自: {{message.fname}}</span>
+                <span class="am-align-right" ng-if="message.touser!=me.users.id">来自: {{message.tname}}</span>
+              </div>
+            </div>
+            <div class="am-g" ng-if="currentMessage==message.id">
+              <div class="am-u-sm-11">
+                <a ng-click="closeMessage()">{{message.title}}</a>
+              </div>
+              <div class="am-u-sm-1">
+                <a ng-click="showReply()" ng-if="!replyMessage.replyShow">回复</a>
+              </div>
+            </div>
+            <div class="am-g" ng-if="currentMessage==message.id&&replyMessage.replyShow">
+              <hr class="am-margin-top-sm">
+              <div class="am-u-sm-8 am-u-sm-offset-2">
+                <textarea rows="6" maxlength="200" class="z5j-content-full" placeholder="我的回复(最多200个字)" ng-model="replyMessage.replyContent">
+                </textarea>
+              </div>
+              <div class="am-u-sm-2">
+                <button class="am-btn am-btn-secondary am-btn-sm" ng-click="replyMessage(message.fromuser)">回复</button>
+              </div>
+            </div>
+            <div class="am-g" ng-if="message.id==currentMessage">
+              <hr class="am-margin-top-sm">
+              <div class="am-u-sm-12" ng-repeat="content in me.message_contents">
+                <div class="am-g">
+                  <div class="am-u-sm-2 z5j-align-center z5j-text-muted" ng-if="me.users.id!=content.user">
+                    <div ng-if="content.user==message.fromuser">
+                      <a class="z5j-user-image" href="/users/show/2732673">
+                        <img class="am-img-thumbnail am-circle" ng-src="../../media/portrait/{{message.fportrait}}" ng-if="message.fportrait!=''">
+                        <img class="am-img-thumbnail am-circle" ng-src="../../media/user_pic-225x225.png" ng-if="message.fportrait==''"/>
+                      </a>
+                      <div class="am-margin-top-xs">{{message.fname}}</div>
+                    </div>
+                    <div ng-if="content.user==message.touser">
+                      <a class="z5j-user-image" href="/users/show/2732673">
+                        <img class="am-img-thumbnail am-circle" ng-src="../../media/portrait/{{message.tportrait}}" ng-if="message.tportrait!=''">
+                        <img class="am-img-thumbnail am-circle" ng-src="../../media/user_pic-225x225.png" ng-if="message.tportrait==''"/>
+                      </a>
+                      <div class="am-margin-top-xs">{{message.tname}}</div>
+                    </div>
+                  </div>
+                  <div class="am-u-sm-8 am-u-end" ng-if="me.users.id!=content.user">
+                    <div class="am-margin-bottom-xs">{{content.content}}
+                    </div>
+                    <div class="z5j-text-muted">
+                      <span>{{content.createtime}}</span>
+                    </div>
+                  </div>
+                  <div class="am-u-sm-8 am-u-sm-offset-2" ng-if="me.users.id==content.user">
+                    <div class="am-margin-bottom-xs">{{content.content}}
+                    </div>
+                    <div class="z5j-text-muted">
+                      <span>{{content.createtime}}</span>
+                    </div>
+                  </div>
+                  <div class="am-u-sm-2 z5j-align-center z5j-text-muted" ng-if="me.users.id==content.user">
+                    <div>
+                      <a class="z5j-user-image">
+                        <img class="am-img-thumbnail am-circle" ng-src="../../media/portrait/{{me.users.portrait}}" ng-if="me.users.portrait!=''">
+                        <img class="am-img-thumbnail am-circle" ng-src="../../media/user_pic-225x225.png" ng-if="me.users.portrait==''"/>
+                      </a>
+                      <div class="am-margin-top-xs">我</div>
+                    </div>
+                  </div>
+                </div>
+                <hr>
+              </div>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

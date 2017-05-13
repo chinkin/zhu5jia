@@ -1,0 +1,60 @@
+<HTML>
+<HEAD>
+  <META http-equiv='Content-Type' content='text/html; charset=utf-8'>
+  <TITLE>Starter
+  </TITLE>
+  <SCRIPT type="text/javascript">
+    function dldFile() {
+    	dldfilename = "../" + document.getElementById("downloadfile").value;
+      sURL = "./Downloadfile.php?filename=" + dldfilename;
+//      window.open(sURL, "downloadfile");
+      window.open(dldfilename, "downloadfile");
+    }
+  </SCRIPT>
+</HEAD>
+<BODY>
+  <TABLE align=center border=0 cellpadding=5 cellspacing=0 width=300 bgcolor=#ffffcc>
+    <FORM id='upform' action='./UploadFile.php' method='post' target='_self' enctype='multipart/form-data'>
+    <TR bgcolor=#ffcc00>
+      <TD>
+        <DIV align=center>上传文件
+        </DIV>
+      </TD>
+    </TR>
+    <TR align=middle>
+      <TD>
+        <INPUT type='hidden' name='max_file_size' value='102400000'>
+        <INPUT type='file' id='filename' name='filename' size=50>
+      </TD>
+    </TR>
+    <TR align=middle>
+      <TD align=left>
+        <FONT size=2>文件目录
+          <INPUT type='text' name='pathname' maxlength=30 size=30>
+        </FONT>
+      </TD>
+    </TR>
+    <TR align=middle>
+      <TD align=left>
+        <INPUT type="submit" value="上传">
+      </TD>
+    </TR>
+    </FORM>
+  <TR bgcolor=#ffcc00>
+    <TD>
+      <DIV align=center>下载文件
+      </DIV>
+    </TD>
+    <TR align=middle>
+      <TD align=left>
+        <FONT size=2>路径/文件
+          <INPUT type='text' id='downloadfile' name='downloadfile' maxlength=30 size=30>
+        </FONT>
+        <BUTTON onclick='dldFile();'>下载
+        </BUTTON>
+      </TD>
+    </TR>
+  </TR>
+  </TABLE>
+</BODY>
+</HTML>

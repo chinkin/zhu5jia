@@ -1,0 +1,150 @@
+<div class="z5j-division">
+  <div class="z5j-page-container">
+    <ul class="am-nav z5j-nav-tabs">
+      <li><a href="#/user/dashboard">控制面板</a></li>
+      <li><a href="#/user/inbox//">收件箱</a></li>
+      <li><a href="#/user/room//">我的房源</a></li>
+      <li><a href="#/user/trip//">我的旅程</a></li>
+      <li><a href="#/user/me//">我的资料</a></li>
+      <li class="z5j-active"><a>我的账号</a></li>
+    </ul>
+  </div>
+</div>
+<div class="z5j-content-background-default">
+  <div class="z5j-page-container am-padding-top-lg am-padding-bottom-lg">
+    <div class="am-g">
+      <div class="am-u-sm-3 am-padding-horizontal-0">
+        <ul class="z5j-sidenav-list">
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('notification')" ng-selected="selectedNavi=='notification'">通知</a>
+          </li>
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('payment')" ng-selected="selectedNavi=='payment'">付款与收款</a>
+          </li>
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('transaction')" ng-selected="selectedNavi=='transaction'">交易记录</a>
+          </li>
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('security')" ng-selected="selectedNavi=='security'">安全</a>
+          </li>
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('setting')" ng-selected="selectedNavi=='setting'">设置</a>
+          </li>
+          <div class="am-margin-top-lg am-margin-bottom-lg">
+            <a class="am-btn am-btn-primary am-btn-sm">邀请好友</a>
+          </div>
+        </ul>
+      </div>
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='notification'">
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <div class="am-panel-hd">
+            <div class="z5j-row">
+              <div class="am-margin-sm">手机通知设定
+              </div>
+            </div>
+          </div>
+          <div class="am-panel-bd">
+            <div class="am-g">
+              <label class="am-u-sm-4 am-form-label">推送通知
+                <div class="z5j-comment">在您的手机或移动设备上接收推送通知。
+                </div>
+              </label>
+              <div class="am-u-sm-8 am-checkbox">
+                <input type="checkbox" ng-model="account.pushflag"> 开启推送通知
+                <div class="z5j-comment-sm">
+                  <span>您需要在手机或移动设备上下载并安装</span>
+                  <a>掌上住我家</a>
+                  <span>。</span>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="am-g">
+              <label class="am-u-sm-4 am-form-label">短信通知
+                <div class="z5j-comment">通过手机短信接收更新消息。
+                </div>
+                <div class="z5j-comment-sm">要了解更多信息，请发送“HELP”（帮助）至123456。要取消手机通知，请回复“STOP”（停止）至123456。可能会产生信息费和数据费。
+                </div>
+              </label>
+              <div class="am-u-sm-8">
+                <div class="z5j-comment-sm">
+                  <span>您可以在编辑个人资料的地方</span>
+                  <a href="/#/user/me/verification/">添加和验证您的手机号码。</a>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="am-g">
+              <label class="am-u-sm-4 am-form-label">我想收到的通知
+                <div class="z5j-comment">同时适用于推送和短信通知。
+                </div>
+              </label>
+              <div class="am-u-sm-8">
+                <div class="am-checkbox">
+                  <input type="checkbox" ng-model="account.messageflag"> 消息
+                  <div class="z5j-comment-sm">
+                    <span>从房东和房客发来的</span>
+                    <a href="/#/user/inbox//">消息</a>
+                    <span>。</span>
+                  </div>
+                </div>
+                <div class="am-checkbox">
+                  <input type="checkbox" ng-model="account.orderflag"> 预订更新
+                  <div class="z5j-comment-sm">确认、查询、更改等信息。
+                  </div>
+                </div>
+                <div class="am-checkbox">
+                  <input type="checkbox" ng-model="account.accountflag"> 账号变动
+                  <div class="z5j-comment-sm">对您的账号所做的更改。
+                  </div>
+                </div>
+                <div class="am-checkbox">
+                  <input type="checkbox" ng-model="account.othersflag"> 其他
+                  <div class="z5j-comment-sm">推荐、小贴士等信息。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <div class="am-panel-hd">
+            <div class="z5j-row">
+              <div class="am-margin-sm">电子邮件通知设定
+              </div>
+            </div>
+          </div>
+          <div class="am-panel-bd">
+            <div class="am-g">
+              <label class="am-u-sm-4 am-form-label">我想收到的通知
+                <div class="z5j-comment">您可以随时禁用这些功能。
+                </div>
+              </label>
+              <div class="am-u-sm-8">
+                <div class="am-checkbox">
+                  <input type="checkbox" ng-model="account.z5jflag">
+                  <div class="z5j-comment-lg">
+                    <span>来自</span>
+                    <span class="z5j-z5j">住我家</span>
+                    <span>的相关新闻、基本促销活动、服务宣传和用户调查。</span>
+                  </div>
+                </div>
+                <div class="am-checkbox">
+                  <input type="checkbox" ng-model="account.bookingflag">
+                  <div class="z5j-comment-lg">预订和评价提醒。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='photovideo'">
+      </div>
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='verification'">
+      </div>
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='review'">
+      </div>
+    </div>
+  </div>
+</div>

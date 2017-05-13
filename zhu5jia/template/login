@@ -1,0 +1,36 @@
+<link rel="stylesheet" href="css/login.css">
+<div id="login" class="am-modal" tabindex="-1">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">登录
+    </div>
+    <div class="am-modal-bd">
+      <form name="logonform" class="am-form" ng-submit="doLogon(logonform.$valid)" novalidate>
+        <div class="am-input-group">
+          <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+          <input type="email" class="am-form-field" ng-model="logonData.email" placeholder="注册邮箱" required>
+        </div>
+        <div class="am-input-group">
+          <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+          <input type="password" class="am-form-field" ng-model="logonData.password" placeholder="密码" required>
+        </div>
+        <div>
+          <div class="am-u-sm-4 am-checkbox">
+            <label>
+              <input type="checkbox" ng-model="rememberAccount" checked>记住账号
+            </label>
+          </div>
+          <div class="am-u-sm-5 z5j-forget-password">
+            <a>忘记密码？
+            </a>
+          </div>
+        </div>
+        <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="logonform.$invalid">登 录</button>
+      </form>
+      <hr>
+      <div class="z5j-modal-footer">还没有帐号？
+        <a ng-click="openSignup()"> 注册
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

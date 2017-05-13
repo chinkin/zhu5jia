@@ -1,0 +1,133 @@
+<div class="z5j-division">
+  <div class="z5j-page-container">
+    <ul class="am-nav z5j-nav-tabs">
+      <li class="z5j-active"><a>控制面板</a></li>
+      <li><a href="#/user/inbox//">收件箱</a></li>
+      <li><a href="#/user/room//">我的房源</a></li>
+      <li><a href="#/user/trip//">我的旅程</a></li>
+      <li><a href="#/user/me//">我的资料</a></li>
+      <li><a href="#/user/account//">我的账号</a></li>
+    </ul>
+  </div>
+</div>
+<div class="z5j-content-background-default">
+  <div class="z5j-page-container am-padding-top-lg am-padding-bottom-lg">
+    <div class="am-g">
+      <div class="am-u-sm-3 am-padding-horizontal-0">
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <a href="#/user/me/photovideo/">
+            <img ng-src="../../media/user_pic-225x225.png" class="am-img-responsive" alt="" width="100%" ng-show="!me.users.portrait"/>
+            <img ng-src="../../media/portrait/{{me.users.portrait}}" class="am-img-responsive" alt="" width="100%" ng-show="me.users.portrait"/>
+          </a>
+          <div class="am-panel-bd">
+            <div class="am-text-lg am-text-center">
+              <a href="#/user/me//">
+                <span>{{me.users.lastname}}{{me.users.firstname}}</span>
+                <span ng-if="me.users.gender!='F'">先生</span>
+                <span ng-if="me.users.gender=='F'">女士</span>
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <div class="am-panel-hd">验证项目
+          </div>
+          <ul class="am-list z5j-panel-bd-sm">
+            <li ng-if="me.user_verifications[0].mobiletime=='0000-00-00 00:00:00'&&me.user_verifications[0].emailtime=='0000-00-00 00:00:00'&&me.user_verifications[0].verifytime=='0000-00-00 00:00:00'">
+              <a class="z5j-danger" href="">没有任何验证
+              </a>
+            </li>
+            <li ng-if="me.user_verifications[0].mobiletime!='0000-00-00 00:00:00'">
+              <span class="am-icon-check-square-o am-icon-sm am-align-left"></span>
+              <span class="z5j-h4">
+                <small>我的手机号</small>
+                <small>已验证</small>
+              </span>
+            </li>
+            <li ng-if="me.user_verifications[0].emailtime!='0000-00-00 00:00:00'">
+              <span class="am-icon-check-square-o am-icon-sm am-align-left"></span>
+              <span class="z5j-h4">
+                <small>我的邮箱地址</small>
+                <small>已验证</small>
+              </span>
+            </li>
+            <li ng-if="me.user_verifications[0].verifytime!='0000-00-00 00:00:00'">
+              <span class="am-icon-check-square-o am-icon-sm am-align-left"></span>
+              <span class="z5j-h4">
+                <small>我的身份证件</small>
+                <small>已验证</small>
+              </span>
+            </li>
+            <li ng-if="me.user_verifications[0].mobiletime=='0000-00-00 00:00:00'||me.user_verifications[0].emailtime=='0000-00-00 00:00:00'||me.user_verifications[0].verifytime=='0000-00-00 00:00:00'">
+              <a href="#/user/me/verification/">我要去验证</a>
+            </li>
+          </ul>
+        </div>
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <div class="am-panel-hd">快速链接
+          </div>
+          <ul class="am-list z5j-panel-bd-sm">
+            <li>
+              <a href="#/user/trip//">开始我的旅程</a>
+            </li>
+            <li>
+              <a href="">我想邀您住我家</a>
+            </li>
+            <li>
+              <a href="">我想周游世界</a>
+            </li>
+            <li>
+              <a href="">帮助中心</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0">
+        <div class="am-panel am-panel-default am-margin-bottom-lg" ng-if="hasNotification">
+          <div class="am-panel-hd">通知
+          </div>
+          <ul class="am-list z5j-panel-bd">
+            <li ng-repeat="notification in me.notification_users">
+              <a href="{{notification.url}}" ng-if="notification.url!=''">
+                <span>{{notification.content}}</span>
+              </a>
+              <div ng-if="notification.url==''&&notification.content!=''">
+                <span>{{notification.content}}</span>
+                <button type="button" class="am-close am-align-right" ng-click="removeNotification(notification.notification)">&times;</button>
+              </div>
+              <div ng-if="notification.url==''&&notification.content==''">
+                <span ng-repeat="content in notification.contents track by $index">
+                  <a href="{{notification.urls[$index]}}" ng-if="content!=''&&notification.urls[$index]!=''">{{content}}</a>
+                  <span ng-if="content!=''&&notification.urls[$index]==''">{{content}}</span>
+                </span>
+                <button type="button" class="am-close am-align-right" ng-click="removeNotification(notification.notification)">&times;</button>
+              </div>
+              <hr>
+            </li>
+          </ul>
+        </div>
+        <div class="am-panel am-panel-default am-margin-bottom-lg" ng-if="hasAD">
+          <div class="am-panel-bd">
+            广告内容
+          </div>
+        </div>
+        <div class="am-panel am-panel-default am-margin-bottom-lg">
+          <div class="am-panel-hd">收件箱 ({{newMessage}}新消息)
+          </div>
+          <div class="z5j-panel-bd" ng-if="newMessage==0">
+            <span class="z5j-h4">
+              <small>如果您发消息给房东或租客，您将会在这里看到他们的回复。</small>
+            </span>
+          </div>
+          <ul class="am-list z5j-panel-bd" ng-if="newMessage>0">
+            <li ng-repeat="message in me.messages">
+              <a href="#/user/inbox/2/{{message.id}}">{{message.title | maxString: 70}}
+              </a>
+              <hr>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

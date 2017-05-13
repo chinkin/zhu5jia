@@ -1,0 +1,488 @@
+<div class="z5j-division">
+  <div class="z5j-page-container">
+    <ul class="am-nav z5j-nav-tabs">
+      <li><a href="#/user/dashboard">控制面板</a></li>
+      <li><a href="#/user/inbox//">收件箱</a></li>
+      <li><a href="#/user/room//">我的房源</a></li>
+      <li><a href="#/user/trip//">我的旅程</a></li>
+      <li class="z5j-active"><a>我的资料</a></li>
+      <li><a href="#/user/account//">我的账号</a></li>
+    </ul>
+  </div>
+</div>
+<div class="z5j-content-background-default">
+  <div class="z5j-page-container am-padding-top-lg am-padding-bottom-lg">
+    <div class="am-g">
+      <div class="am-u-sm-3 am-padding-horizontal-0">
+        <ul class="z5j-sidenav-list">
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('mydata')" ng-selected="selectedNavi=='mydata'">个人资料</a>
+          </li>
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('photovideo')" ng-selected="selectedNavi=='photovideo'">照片和视频</a>
+          </li>
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('verification')" ng-selected="selectedNavi=='verification'">我的验证</a>
+          </li>
+          <li>
+            <a class="z5j-sidenav-item" ng-click="changeNavigation('review')" ng-selected="selectedNavi=='review'">评价</a>
+          </li>
+        </ul>
+      </div>
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='mydata'">
+        <form class="am-form am-form-horizontal" role="form">
+          <div class="am-panel am-panel-default am-margin-bottom-lg">
+            <div class="am-panel-hd">
+              <div class="z5j-row">
+                <div class="am-margin-left-sm">必填
+                </div>
+              </div>
+            </div>
+            <div class="am-panel-bd">
+              <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                <label for="lastname" class="am-u-sm-2 am-form-label">姓氏</label>
+                <div class="am-u-sm-10">
+                  <input id="lastname" type="text" ng-model="me.lastname"/>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label for="firstname" class="am-u-sm-2 am-form-label">名字</label>
+                <div class="am-u-sm-10">
+                  <input id="firstname" type="text" ng-model="me.firstname"/>
+                  <div class="z5j-comment-sm">仅当您和另一名用户确认预订时，此信息才会被分享。
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label class="am-u-sm-2 am-form-label">性别</label>
+                <div id="gender" class="am-u-sm-10">
+                  <select data-am-selected>
+                    <option value="M" selected="selected">男性</option>
+                    <option value="F">女性</option>
+                    <option value="O">其他</option>
+                  </select>
+                  <span class="am-form-caret"></span>
+                  <div class="z5j-comment-sm">此信息仅用于分析，我们不会透露给其它用户。
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label class="am-u-sm-2 am-form-label">出生日期</label>
+                <div id="birthday" class="am-u-sm-10">
+                  <div class="am-inline-block">
+                    <select id="birthday-year" data-am-selected>
+                      <option value="1999">1999年</option>
+                      <option value="1998">1998年</option>
+                      <option value="1997">1997年</option>
+                      <option value="1996">1996年</option>
+                      <option value="1995">1995年</option>
+                      <option value="1994">1994年</option>
+                      <option value="1993">1993年</option>
+                      <option value="1992">1992年</option>
+                      <option value="1991">1991年</option>
+                      <option value="1990">1990年</option>
+                      <option value="1989">1989年</option>
+                      <option value="1988">1988年</option>
+                      <option value="1987">1987年</option>
+                      <option value="1986">1986年</option>
+                      <option value="1985">1985年</option>
+                      <option value="1984">1984年</option>
+                      <option value="1983">1983年</option>
+                      <option value="1982">1982年</option>
+                      <option value="1981">1981年</option>
+                      <option value="1980" selected="selected">1980年</option>
+                      <option value="1979">1979年</option>
+                      <option value="1978">1978年</option>
+                      <option value="1977">1977年</option>
+                      <option value="1976">1976年</option>
+                      <option value="1975">1975年</option>
+                      <option value="1974">1974年</option>
+                      <option value="1973">1973年</option>
+                      <option value="1972">1972年</option>
+                      <option value="1971">1971年</option>
+                      <option value="1970">1970年</option>
+                      <option value="1969">1969年</option>
+                      <option value="1968">1968年</option>
+                      <option value="1967">1967年</option>
+                      <option value="1966">1966年</option>
+                      <option value="1965">1965年</option>
+                      <option value="1964">1964年</option>
+                      <option value="1963">1963年</option>
+                      <option value="1962">1962年</option>
+                      <option value="1961">1961年</option>
+                      <option value="1960">1960年</option>
+                      <option value="1959">1959年</option>
+                      <option value="1958">1958年</option>
+                      <option value="1957">1957年</option>
+                      <option value="1956">1956年</option>
+                      <option value="1955">1955年</option>
+                      <option value="1954">1954年</option>
+                      <option value="1953">1953年</option>
+                      <option value="1952">1952年</option>
+                      <option value="1951">1951年</option>
+                      <option value="1950">1950年</option>
+                      <option value="1949">1949年</option>
+                      <option value="1948">1948年</option>
+                      <option value="1947">1947年</option>
+                      <option value="1946">1946年</option>
+                      <option value="1945">1945年</option>
+                      <option value="1944">1944年</option>
+                      <option value="1943">1943年</option>
+                      <option value="1942">1942年</option>
+                      <option value="1941">1941年</option>
+                      <option value="1940">1940年</option>
+                      <option value="1939">1939年</option>
+                      <option value="1938">1938年</option>
+                      <option value="1937">1937年</option>
+                      <option value="1936">1936年</option>
+                      <option value="1935">1935年</option>
+                      <option value="1934">1934年</option>
+                      <option value="1933">1933年</option>
+                      <option value="1932">1932年</option>
+                      <option value="1931">1931年</option>
+                      <option value="1930">1930年</option>
+                      <option value="1929">1929年</option>
+                      <option value="1928">1928年</option>
+                      <option value="1927">1927年</option>
+                      <option value="1926">1926年</option>
+                      <option value="1925">1925年</option>
+                      <option value="1924">1924年</option>
+                      <option value="1923">1923年</option>
+                      <option value="1922">1922年</option>
+                      <option value="1921">1921年</option>
+                      <option value="1920">1920年</option>
+                      <option value="1919">1919年</option>
+                      <option value="1918">1918年</option>
+                      <option value="1917">1917年</option>
+                      <option value="1916">1916年</option>
+                      <option value="1915">1915年</option>
+                      <option value="1914">1914年</option>
+                      <option value="1913">1913年</option>
+                      <option value="1912">1912年</option>
+                      <option value="1911">1911年</option>
+                      <option value="1910">1910年</option>
+                      <option value="1909">1909年</option>
+                      <option value="1908">1908年</option>
+                      <option value="1907">1907年</option>
+                      <option value="1906">1906年</option>
+                      <option value="1905">1905年</option>
+                      <option value="1904">1904年</option>
+                      <option value="1903">1903年</option>
+                      <option value="1902">1902年</option>
+                      <option value="1901">1901年</option>
+                      <option value="1900">1900年</option>
+                    </select>
+                    <span class="am-form-caret"></span>
+                  </div>
+                  <div class="am-inline-block">
+                    <select id="birthday-month" data-am-selected>
+                      <option value="1" selected="selected">1月</option>
+                      <option value="2">2月</option>
+                      <option value="3">3月</option>
+                      <option value="4">4月</option>
+                      <option value="5">5月</option>
+                      <option value="6">6月</option>
+                      <option value="7">7月</option>
+                      <option value="8">8月</option>
+                      <option value="9">9月</option>
+                      <option value="10">10月</option>
+                      <option value="11">11月</option>
+                      <option value="12">12月</option>
+                    </select>
+                    <span class="am-form-caret"></span>
+                  </div>
+                  <div class="am-inline-block">
+                    <select id="birthday-day" data-am-selected>
+                      <option value="1" selected="selected">1日</option>
+                      <option value="2">2日</option>
+                      <option value="3">3日</option>
+                      <option value="4">4日</option>
+                      <option value="5">5日</option>
+                      <option value="6">6日</option>
+                      <option value="7">7日</option>
+                      <option value="8">8日</option>
+                      <option value="9">9日</option>
+                      <option value="10">10日</option>
+                      <option value="11">11日</option>
+                      <option value="12">12日</option>
+                      <option value="13">13日</option>
+                      <option value="14">14日</option>
+                      <option value="15">15日</option>
+                      <option value="16">16日</option>
+                      <option value="17">17日</option>
+                      <option value="18">18日</option>
+                      <option value="19">19日</option>
+                      <option value="20">20日</option>
+                      <option value="21">21日</option>
+                      <option value="22">22日</option>
+                      <option value="23">23日</option>
+                      <option value="24">24日</option>
+                      <option value="25">25日</option>
+                      <option value="26">26日</option>
+                      <option value="27">27日</option>
+                      <option value="28">28日</option>
+                      <option value="29">29日</option>
+                      <option value="30">30日</option>
+                      <option value="31">31日</option>
+                    </select>
+                    <span class="am-form-caret"></span>
+                  </div>
+                  <div class="z5j-comment-sm">此信息仅用于分析，我们不会透露给其它用户。
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label for="email" class="am-u-sm-2 am-form-label">电子邮件</label>
+                <div class="am-u-sm-10">
+                  <input id="email" type="text" ng-model="me.email"/>
+                  <div class="z5j-comment-sm">此信息可用于验证，我们不会透露给其它用户。
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label class="am-u-sm-2 am-form-label">手机号码</label>
+                <div id="mobile" class="am-u-sm-10">
+                  <div ng-if="me.mobile==''">
+                    <div class="am-inline-block am-vertical-align-middle z5j-comment">未添加手机号码
+                    </div>
+                    <div class="am-inline-block am-vertical-align-middle" ng-if="mobilestep==0">
+                      <a class="am-icon-mobile am-icon-sm am-secondary" ng-click="editMobile()"></a>
+                    </div>
+                  </div>
+                  <div ng-if="me.mobile!=''">
+                    <div class="am-inline-block am-vertical-align-middle">
+                      <input type="text" class="am-form-field" ng-model="me.mobile" readonly/>
+                    </div>
+                    <div class="am-inline-block am-vertical-align-middle" ng-if="mobilestep==0">
+                      <a class="am-icon-edit am-icon-sm am-secondary" ng-click="editMobile()"></a>
+                    </div>
+                  </div>
+                  <div class="am-g" ng-if="mobilestep!=0">
+                    <div class="am-u-sm-7 am-container">
+                      <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                        <label for="country" class="am-u-sm-4 am-form-label">选择国家</label>
+                        <div class="am-u-sm-8">
+                          <select id="country" data-am-selected>
+                            <option value="CN" selected="selected">中国</option>
+                            <option value="JP">日本</option>
+                            <option value="US">美国</option>
+                          </select>
+                          <span class="am-form-caret"></span>
+                        </div>
+                      </div>
+                      <div class="am-form-group am-form-group-sm">
+                        <label for="mobileno" class="am-u-sm-4 am-form-label">填写手机号</label>
+                        <div class="am-u-sm-8">
+                          <div class="am-inline-block am-vertical-align-middle">
+                            <input id="countrycode" type="text" ng-model="countrycode" readonly/>
+                          </div>
+                          <div class="am-inline-block am-vertical-align-middle">
+                            <input id="mobileno" type="text" ng-model="me.mobile"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="am-form-group am-form-group-sm" ng-if="mobilestep==1">
+                        <div class="am-u-sm-4 am-u-sm-offset-4">
+                          <button class="am-btn am-btn-secondary am-btn-sm" ng-click="sendCode()">短信验证</button>
+                        </div>
+                        <div class="am-u-sm-4">
+                          <a class="am-icon-question-circle am-icon-sm am-secondary" target="_blank" href="/help/article/277"></a>
+                        </div>
+                      </div>
+                      <div class="am-form-group am-form-group-sm" ng-if="mobilestep==2">
+                        <div class="am-u-sm-4 am-u-sm-offset-4">
+                          <input type="text" maxlength="6" ng-model="verifycode"/>
+                        </div>
+                        <div class="am-u-sm-4">
+                          <button class="am-btn am-btn-secondary am-btn-sm" ng-click="verifyMobile()">验证手机</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="z5j-comment-sm">此信息可用于验证，仅当您和另一名用户确认预订时，此信息才会被分享。
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label for="place" class="am-u-sm-2 am-form-label">我住的地方</label>
+                <div class="am-u-sm-10">
+                  <input id="place" type="text" placeholder="例如，中国上海 / 北京故宫 / 维多利亚州墨尔本" ng-model="me.place"/>
+                  <div class="z5j-comment-sm">此信息仅用于分析，我们不会透露给其它用户。
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label for="profile" class="am-u-sm-2 am-form-label">自我介绍</label>
+                <div class="am-u-sm-10">
+                  <textarea id="profile" ng-model="me.profile">
+                  </textarea>
+                  <div class="z5j-comment-sm">自我介绍能增进大家的相互了解。
+                  </div>
+                  <div class="z5j-comment-sm">告诉他们您喜欢什么。分享您最喜爱的旅游目的地、书籍、电影、电视节目、音乐以及食物。
+                  </div>
+                  <div class="z5j-comment-sm">告诉他们您会是个什么样的房东或房客，您旅游的风格是什么样的，或是您作为房东的风格是如何的。
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="am-panel am-panel-default am-margin-bottom-lg">
+            <div class="am-panel-hd">
+              <div class="z5j-row">
+                <div class="am-margin-left-sm">可选
+                </div>
+              </div>
+            </div>
+            <div class="am-panel-bd">
+              <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                <label for="college" class="am-u-sm-2 am-form-label">学校</label>
+                <div class="am-u-sm-10">
+                  <input id="college" type="text" ng-model="me.college"/>
+                  <div class="z5j-comment-sm">您是学生吗？
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label for="job" class="am-u-sm-2 am-form-label">我的工作</label>
+                <div class="am-u-sm-10">
+                  <input id="job" type="text" placeholder="例如，住我家 / 苹果公司 / 谷歌地图" ng-model="me.job"/>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label for="language" class="am-u-sm-2 am-form-label">语言</label>
+                <div class="am-u-sm-10">
+                  <div class="z5j-comment">
+                    <span class="am-badge am-badge-primary am-text-default">中文</span>
+                  </div>
+                  <div class="z5j-comment">
+                    <a class="am-icon-plus am-secondary" ng-click="addLanguage()"> 我会其他语言</a>
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label class="am-u-sm-2 am-form-label">地址</label>
+                <div id="address" class="am-u-sm-10">
+                  <div ng-if="me.address==''">
+                    <div class="am-inline-block am-vertical-align-middle z5j-comment">添加地址
+                    </div>
+                    <div class="am-inline-block am-vertical-align-middle" ng-if="addressstep==0">
+                      <a class="am-icon-plus-square am-icon-sm am-secondary" ng-click="editAddress()"></a>
+                    </div>
+                  </div>
+                  <div ng-if="me.address!=''">
+                    <div class="am-inline-block am-vertical-align-middle">
+                      <input type="text" class="am-form-field" ng-model="me.address" readonly/>
+                    </div>
+                    <div class="am-inline-block am-vertical-align-middle" ng-if="addressstep==0">
+                      <a class="am-icon-edit am-icon-sm am-secondary" ng-click="editAddress()"></a>
+                    </div>
+                  </div>
+                  <div class="am-g" ng-if="addressstep!=0">
+                    <div class="am-u-sm-7 am-container">
+                      <div class="am-form-group am-form-group-sm am-margin-top-sm">
+                        <label for="address_country" class="am-u-sm-3 am-form-label">选择国家</label>
+                        <div class="am-u-sm-9">
+                          <select id="address_country" data-am-selected>
+                            <option value="CN" selected="selected">中国</option>
+                            <option value="JP">日本</option>
+                            <option value="US">美国</option>
+                          </select>
+                          <span class="am-form-caret"></span>
+                        </div>
+                      </div>
+                      <div class="am-form-group am-form-group-sm">
+                        <label for="address_state" class="am-u-sm-3 am-form-label">州/省/郡/区</label>
+                        <div class="am-u-sm-9">
+                          <div class="am-inline-block am-vertical-align-middle">
+                            <input id="address_state" type="text" ng-model="me.address.state"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="am-form-group am-form-group-sm">
+                        <label for="address_city" class="am-u-sm-3 am-form-label">市/镇/区</label>
+                        <div class="am-u-sm-9">
+                          <div class="am-inline-block am-vertical-align-middle">
+                            <input id="address_city" type="text" ng-model="me.address.city"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="am-form-group am-form-group-sm">
+                        <label for="address_address" class="am-u-sm-3 am-form-label">地址</label>
+                        <div class="am-u-sm-9">
+                          <div class="am-inline-block am-vertical-align-middle">
+                            <input id="address_address" type="text" ng-model="me.address.address"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="am-form-group am-form-group-sm">
+                        <label for="address_zip" class="am-u-sm-3 am-form-label">邮政编码</label>
+                        <div class="am-u-sm-9">
+                          <div class="am-inline-block am-vertical-align-middle">
+                            <input id="address_zip" type="text" ng-model="me.address.zip"/>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="am-form-group am-form-group-sm">
+                        <div class="am-u-sm-4 am-u-sm-offset-3">
+                          <button class="am-btn am-btn-secondary am-btn-sm" ng-click="saveAddress()">保存地址</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="z5j-comment-sm">奖品及重要信件会寄到这个地址。
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm">
+                <label for="contact" class="am-u-sm-2 am-form-label">联系人</label>
+                <div class="am-u-sm-10">
+                  <div ng-if="me.contact==''">
+                    <div class="am-inline-block am-vertical-align-middle z5j-comment">添加联系人
+                    </div>
+                    <div class="am-inline-block am-vertical-align-middle" ng-if="editcontact!=true">
+                      <a class="am-icon-plus-square am-icon-sm am-secondary" ng-click="editContact()"></a>
+                    </div>
+                  </div>
+                  <div ng-if="me.contact!=''">
+                    <div class="am-inline-block am-vertical-align-middle">
+                      <input id="contact" type="text" class="am-form-field" ng-model="me.contact" readonly/>
+                    </div>
+                    <div class="am-inline-block am-vertical-align-middle" ng-if="editcontact!=true">
+                      <a class="am-icon-edit am-icon-sm am-secondary" ng-click="editContact()"></a>
+                    </div>
+                  </div>
+                  <div class="z5j-comment-sm">给我们的客户体验团队提供一个可信任的联系人，如果出现紧急情况，我们可以联系此人。
+                  </div>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm" ng-if="editcontact==true">
+                <label for="contact_name" class="am-u-sm-2 am-form-label">姓名</label>
+                <div class="am-u-sm-10">
+                  <input id="contact_name" type="text" ng-model="me.contact.name"/>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm" ng-if="editcontact==true">
+                <label for="contact_phone" class="am-u-sm-2 am-form-label">电话</label>
+                <div class="am-u-sm-10">
+                  <input id="contact_phone" type="text" ng-model="me.contact.phone"/>
+                </div>
+              </div>
+              <div class="am-form-group am-form-group-sm" ng-if="editcontact==true">
+                <label for="contact_email" class="am-u-sm-2 am-form-label">电子邮件</label>
+                <div class="am-u-sm-10">
+                  <input id="contact_email" type="text" ng-model="me.contact.email"/>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='photovideo'">
+      </div>
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='verification'">
+      </div>
+      <div class="am-u-sm-9 am-padding-left-lg am-padding-right-0" ng-if="selectedNavi=='review'">
+      </div>
+    </div>
+  </div>
+</div>

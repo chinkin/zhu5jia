@@ -1,0 +1,211 @@
+<link rel="stylesheet" href="css/newbie.css">
+<div id="newbie" class="am-modal" ng-class="{1: 'z5j-modal-background-begin', 2: 'z5j-modal-background-end', 0: 'z5j-modal-no-background'}[background]" tabindex="-1">
+  <div class="am-modal-dialog" ng-if="step==0||step==4">
+    <div class="am-modal-bd z5j-color-white">
+      <div class="am-padding-bottom-xs">
+        <img ng-src="media/favicon.jpg" />
+      </div>
+      <h3 ng-if="step==0">《住我家》欢迎您</h3>
+      <h3 ng-if="step==4">谢谢您</h3>
+      <div class="am-padding-bottom-lg" ng-if="step==0">《住我家》上的房东和房客都是拥有真实房源的真实的人。因此您需要确认一些简单的信息才能激活您的帐号。
+      </div>
+      <div class="am-padding-bottom-lg" ng-if="step==4">您已经完成一些基本的设置，可以开始您的新旅程或成为一名新房东。
+      </div>
+      <button class="am-btn am-btn-secondary am-radius am-btn-block am-margin-bottom-lg" ng-if="step==0" ng-click="gotoNext()">新 手 上 路</button>
+      <button class="am-btn am-btn-secondary am-radius am-btn-block am-margin-bottom-lg" ng-if="step==4" ng-click="gotoNext()">开 始 新 旅 程</button>
+    </div>
+  </div>
+  <div class="am-modal-dialog" ng-if="step==1">
+    <div class="am-modal-hd">
+      <div class="z5j-step-marker">
+        <i class="am-icon-circle"></i>
+      </div>
+      <div class="z5j-step-marker">
+        <i class="am-icon-circle-o"></i>
+      </div>
+      <div class="z5j-step-marker">
+        <i class="am-icon-circle-o"></i>
+      </div>
+    </div>
+    <div class="am-modal-bd z5j-color-default">
+      <h3 ng-if="subStep==0">添加您的照片</h3>
+      <h3 ng-if="subStep==10">看起来不错！</h3>
+      <h3 ng-if="subStep==11">是这张照片吗？</h3>
+      <div class="am-padding-bottom-lg" ng-if="subStep==0">上传一张您的大头照，这样房东或者房客看到您时就能认出来。
+      </div>
+      <div class="am-padding-bottom-lg" ng-if="subStep==10">谢谢您上传了大头照。
+      </div>
+      <div class="am-padding-bottom-lg" ng-if="subStep==11">呃，这是您吗？请选择一张能认出您的照片。
+      </div>
+      <div class="z5j-image-with-status am-margin-bottom-lg" ng-if="subStep==0">
+        <img class="am-circle z5j-portrait-image" ng-src="{{portraitImage}}" />
+      </div>
+      <div class="z5j-image-with-status am-margin-bottom-lg" ng-if="subStep!=0&&controller.isImage(uploader.queue[0]._file)">
+        <div ng-show="uploader.isHTML5" ng-thumb="{file: uploader.queue[0]._file, width: 150, height: 150}">
+        </div>
+        <div class="z5j-status-icon">
+          <div class="z5j-highlighted-icon">
+            <div class="z5j-highlighted-icon-background z5j-background-success am-circle" ng-if="subStep==10">
+            </div>
+            <div class="z5j-highlighted-icon-background z5j-background-error am-circle" ng-if="subStep==11">
+            </div>
+            <i class="z5j-highlighted-icon-icon z5j-icon-white am-icon-check" ng-if="subStep==10"></i>
+            <i class="z5j-highlighted-icon-icon z5j-icon-white am-icon-warning" ng-if="subStep==11"></i>
+          </div>
+        </div>
+      </div>
+      <div class="am-form-group am-form-file">
+        <button class="am-btn am-btn-secondary am-radius am-btn-block am-margin-bottom-lg" ng-if="subStep==0">上传照片</button>
+        <input type="file" nv-file-select="" uploader="uploader">
+      </div>
+      <div class="z5j-return am-padding-bottom-sm" ng-if="subStep==10" ng-click="changePortrait()">
+        <a>换张照片</a>
+      </div>
+      <button class="am-btn am-btn-warning am-radius am-btn-block am-margin-bottom-xl" ng-if="subStep==10" ng-click="uploadPortrait(uploader.queue[0])">下一步</button>
+      <button class="am-btn am-btn-warning am-radius am-btn-block am-margin-bottom-sm" ng-if="subStep==11" ng-click="changePortrait()">换张照片</button>
+      <div class="z5j-return am-padding-bottom-lg" ng-if="subStep==11">
+        <a>就用这张</a>
+      </div>
+      <div class="z5j-jump-to-next am-padding-bottom-xl" ng-if="subStep!=10" ng-click="gotoNext()">
+        <a>跳过这步</a>
+      </div>
+      <div class="z5j-jump-to-next am-padding-bottom-xl" ng-if="subStep==10">
+      </div>
+    </div>
+  </div>
+  <div class="am-modal-dialog" ng-if="step==2">
+    <div class="am-modal-hd">
+      <div class="z5j-step-marker">
+        <i class="am-icon-circle-o"></i>
+      </div>
+      <div class="z5j-step-marker">
+        <i class="am-icon-circle"></i>
+      </div>
+      <div class="z5j-step-marker">
+        <i class="am-icon-circle-o"></i>
+      </div>
+    </div>
+    <div class="am-modal-bd z5j-color-default">
+      <h3 ng-if="subStep==0">确认您的手机</h3>
+      <h3 ng-if="subStep==1">输入检验码</h3>
+      <div class="am-padding-bottom-lg" ng-if="subStep==0">这样可以让您的房东或房客在旅程中联系到您。
+      </div>
+      <div class="am-padding-bottom-lg" ng-if="subStep==1">6位检验码已经发送到您的手机，验证码在10分钟后过期，您可以在"我的资料"中重新验证。
+      </div>
+      <div class="z5j-icon-container am-margin-bottom-lg">
+        <i class="z5j-icon-grey am-icon-mobile am-icon-lg am-margin-top-lg"></i>
+      </div>
+      <form name="mobileform" class="am-form am-margin-bottom-xl" ng-submit="doMobile(mobileform.$valid)" ng-if="subStep==0" novalidate>
+        <div class="am-u-sm-8 am-u-sm-offset-2">
+          <div class="z5j-input-addon">
+            <span class="z5j-input-prefix">+{{mobilephone.users.phonecode}}
+            </span>
+            <input class="z5j-input-stem" type="text" ng-model="mobilephone.users.mobile" required/>
+          </div>
+          <div class="z5j-comment-sm am-margin-bottom-sm">
+            <span>
+              <span>不是</span>
+              <span>{{country}}</span>
+              <span>手机？</span>
+            </span>
+            <div class="z5j-change-country-link">
+              <span>
+                <a>更改国家</a>
+              </span>
+              <select id="phone_country" class="z5j-change-country-select" ng-model="currentCountry" ng-options="country.id as country.name for country in countries" ng-change="changeCountry(currentCountry)">
+              </select>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="mobileform.$invalid">确认手机号码</button>
+      </form>
+      <form name="verifyform" class="am-form am-form-horizontal am-margin-bottom-xl" ng-submit="doVerify(verifyform.$valid)" ng-if="subStep==1" novalidate>
+        <div class="am-u-sm-8 am-u-sm-offset-2">
+          <div class="z5j-input-addon am-margin-bottom-sm">
+            <span class="z5j-input-prefix">+{{me.users.phonecode}}
+            </span>
+            <span class="z5j-input-suffix">{{me.users.mobile}}
+            </span>
+          </div>
+          <div class="am-form-group am-form-group-sm am-margin-bottom-sm">
+            <label for="lastname" class="am-u-sm-5 am-form-label am-padding-left-0">验证码</label>
+            <div class="am-u-sm-7">
+              <input type="text" ng-minlength="6" ng-maxlength="6" ng-model="verifications.code" required/>
+            </div>
+          </div>
+        </div>
+        <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="verifyform.$invalid">核对验证码</button>
+      </form>
+      <div class="z5j-jump-to-next am-padding-bottom-sm" ng-click="gotoNext()">
+        <a>跳过这步</a>
+      </div>
+    </div>
+  </div>
+  <div class="am-modal-dialog" ng-if="step==3">
+    <div class="am-modal-hd">
+      <div class="z5j-step-marker">
+        <i class="am-icon-circle-o"></i>
+      </div>
+      <div class="z5j-step-marker">
+        <i class="am-icon-circle-o"></i>
+      </div>
+      <div class="z5j-step-marker">
+        <i class="am-icon-circle"></i>
+      </div>
+    </div>
+    <div class="am-modal-bd z5j-color-default">
+      <h3>一些基本信息</h3>
+      <div class="am-padding-bottom-xl">这些可以让《住我家》里的朋友更加了解您。
+      </div>
+      <form name="userform" class="am-form am-margin-bottom-xl" ng-submit="doInformation(userform.$valid)" novalidate>
+        <div class="am-u-sm-8 am-u-sm-offset-2">
+          <div class="z5j-comment-xl am-margin-bottom-lg">
+            <span class="">我是{{me.users.lastname}}
+            </span>
+            <span class="z5j-change-country-link">
+              <span>
+                <a>{{gender}}</a>
+              </span>
+              <select id="gender" class="z5j-change-country-select" ng-model="currentGender" ng-options="gender.id as gender.name for gender in genders" ng-change="changeGender(currentGender)">
+              </select>
+            </span>
+          </div>
+          <div class="z5j-comment-xl am-margin-bottom-lg">
+            <span>
+              <span>我是</span>
+            </span>
+            <div class="z5j-change-country-link">
+              <span>
+                <a>{{nationality}}</a>
+              </span>
+              <select id="nationality" class="z5j-change-country-select" ng-model="currentNationality" ng-options="nationality.id as nationality.name for nationality in countries" ng-change="changeNationality(currentNationality)">
+              </select>
+            </div>
+            <span>
+              <span>人</span>
+            </span>
+          </div>
+          <div class="z5j-comment-xl am-margin-bottom-xl">
+            <span>
+              <span>我</span>
+            </span>
+            <div class="z5j-change-country-link">
+              <span>
+                <a>{{agent}}</a>
+              </span>
+              <select id="agent" class="z5j-change-country-select" ng-model="currentAgent" ng-options="agent.id as agent.name for agent in agents" ng-change="changeAgent(currentAgent)">
+              </select>
+            </div>
+            <span>
+              <span>经理人</span>
+            </span>
+          </div>
+        </div>
+        <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="userform.$invalid">下一步</button>
+      </form>
+      <div class="z5j-jump-to-next am-padding-bottom-sm" ng-click="gotoNext()">
+        <a>跳过这步</a>
+      </div>
+    </div>
+  </div>
+</div>

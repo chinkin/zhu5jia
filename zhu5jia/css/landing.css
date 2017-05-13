@@ -1,0 +1,86 @@
+#search_wrapper {
+  height: 600px;
+  position: relative;
+}
+
+#search_area {
+  top: 50px;
+  width: 100%;
+  height: 550px;
+  position: relative;
+}
+
+#get {
+  right: 0;
+  left: 0;
+  height: 450px;
+  color: #fff;
+  background-color: transparent;
+  text-align: center;
+  padding: 150px 0 100px 0;
+}
+#get_title {
+  font-size: 200%;
+  display: inline-block;
+}
+#get .am-btn {
+  background: #fff;
+}
+
+#search {
+  right: 0;
+  left: 0;
+  height: 100px;
+  color: #ffffff;
+  text-align: center;
+  background: none repeat scroll 0 0 rgba(0, 0, 0, 0.6);
+  padding: 28px 0;
+}
+
+#search > .am-container {
+  width: 800px;
+  border: 1px;
+  padding: 0;
+}
+
+#search .am-form-group {
+  margin: 0 -3px 0 0;
+}
+
+#search .destination {
+  width: 250px;
+}
+
+#checkin, #checkout {
+  width: 120px;
+  cursor: auto;
+}
+
+#checkin {
+  margin: 0 -3px 0 0;
+}
+
+#search .adult, #search .child {
+  width: 120px;
+  height: 38px;
+  color: #000000;
+  border: 1px;
+}
+
+#community {
+  background: #ffffff;
+}
+#community h2 {
+  text-align: center;
+  font-size: 200%;
+  margin: 40px 0;
+}
+#community h3 {
+  color: #1f8dd6;
+}
+#community p {
+  color: #7f8c8d;
+}
+#community .mb {
+  margin-bottom: 30px;
+}

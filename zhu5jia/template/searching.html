@@ -1,0 +1,394 @@
+<link rel="stylesheet" href="css/searching.css">
+<header class="am-topbar am-topbar-fixed-top z5j-topbar-no-bottom">
+  <div class="z5j-container-full">
+    <h1 class="am-topbar-brand">
+      <a href="http://test.zhu5jia.com"><img ng-src="media/favicon.jpg" /> 住我家-四海如家</a>
+    </h1>
+
+    <div class="am-collapse am-topbar-collapse" id="collapse-head">
+      <div class="am-topbar-right">
+        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm">发布我的房源</button>
+      </div>
+      <div class="am-topbar-right">
+        <button class="am-btn am-btn-transparent am-topbar-btn am-btn-sm"><span class="am-icon-question"></span> 帮助</button>
+      </div>
+      <div class="am-topbar-right">
+        <button class="am-btn am-btn-transparent am-topbar-btn am-btn-sm" data-am-modal="{target: '#signup', closeViaDimmer: 1}">
+          <span class="am-icon-pencil"></span> 注册
+        </button>
+      </div>
+      <div class="am-topbar-right">
+        <button class="am-btn am-btn-transparent am-topbar-btn am-btn-sm" ng-click="checkLocalUser()" data-am-modal="{target: '#login', closeViaDimmer: 1}">
+          <span class="am-icon-user"></span> 登录
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="search-map">
+  <div class="search-result" id="search_result">
+    <div class="am-g result-header">
+      <div class="am-u-sm-9 header-destination">{{country}} > {{state}} > {{city}}
+      </div>
+      <div class="am-u-sm-3 room-number">{{roomNumber}}个以上的出租房源
+      </div>
+    </div>
+    <div class="filters">
+      <div class="am-g">
+        <div class="am-u-sm-2 am-label">城市
+        </div>
+        <div class="am-u-sm-10">
+          <input type="text" class="am-form-field" placeholder="我想去..." ng-model="destination"/>
+        </div>
+      </div>
+      <hr></hr>
+      <div class="am-g">
+        <div class="am-u-sm-2 am-label">日期
+        </div>
+        <div class="am-u-sm-10">
+          <ui class="am-avg-sm-3">
+            <li><input id="checkin" type="text" class="am-form-field" placeholder="入住" data-am-datepicker readonly/></li>
+            <li><input id="checkout" type="text" class="am-form-field" placeholder="离开" data-am-datepicker readonly/></li>
+            <li>
+              <select id="guest_no" class="adult" data-am-selected>
+                <option value="1">1位成人 </option>
+                <option value="2">2位成人 </option>
+                <option value="3">3位成人 </option>
+                <option value="4">4位成人 </option>
+                <option value="5">5位成人 </option>
+                <option value="6">6位成人 </option>
+                <option value="7">7位成人 </option>
+                <option value="8">8位成人 </option>
+                <option value="9">9人及以上</option>
+              </select>
+              <span class="am-form-caret"></span>
+            </li>
+          </ui>
+        </div>
+      </div>
+      <hr></hr>
+      <div class="am-g">
+        <div class="am-u-sm-2 am-label">房间类型</div>
+        <div class="am-u-sm-10 am-label">
+          <ui class="am-avg-sm-3">
+            <li>
+              <label class="am-checkbox-inline">
+                <input type="checkbox" value="option1"> 独立屋/整套公寓
+              </label>
+            </li>
+            <li>
+              <label class="am-checkbox-inline">
+                <input type="checkbox" value="option2"> 独立房间
+              </label>
+            </li>
+            <li>
+              <label class="am-checkbox-inline">
+                <input type="checkbox" value="option3"> 合住房间/通铺
+              </label>
+            </li>
+          </ui>
+        </div>
+      </div>
+      <hr></hr>
+      <div class="am-g">
+        <div class="am-u-sm-2 am-label">价格区间</div>
+        <div class="am-u-sm-10">
+        </div>
+      </div>
+
+      <section data-am-widget="accordion" class="am-accordion am-accordion-default" data-am-accordion="{multiple:true }">
+        <dl class="am-accordion-item">
+          <dt class="am-accordion-title">更多筛选条件</dt>
+          <dd class="am-accordion-bd am-collapse ">
+            <!-- 规避 Collapase 处理有 padding 的折叠内容计算计算有误问题， 加一个容器 -->
+            <div class="am-accordion-content">
+              <div class="am-g">
+                <div class="am-u-sm-2 am-label">房间</div>
+                <div class="am-u-sm-10 am-label">
+                  <ui class="am-avg-sm-3">
+                    <li><select id="rooms">
+                      <option value="1" selected="selected">卧室</option>
+                      <option value="2">1间卧室</option>
+                      <option value="2">2间卧室</option>
+                      <option value="3">3间卧室</option>
+                      <option value="4">4间卧室</option>
+                      <option value="5">5间卧室</option>
+                      <option value="6">6间卧室</option>
+                      <option value="7">7间卧室</option>
+                      <option value="8">8间卧室</option>
+                      <option value="9">9间卧室及以上</option>
+                    </select><span class="am-form-caret"></span></li>
+                    <li><select id="bathrooms">
+                      <option value="1" selected="selected">卫生间</option>
+                      <option value="2">1间卫生间</option>
+                      <option value="2">2间卫生间</option>
+                      <option value="3">3间卫生间</option>
+                      <option value="4">4间卫生间</option>
+                      <option value="5">5间卫生间</option>
+                      <option value="6">6间卫生间</option>
+                      <option value="7">7间卫生间</option>
+                      <option value="8">8间卫生间</option>
+                      <option value="9">9间卫生间及以上</option>
+                    </select><span class="am-form-caret"></span></li>
+                    <li><select id="beds">
+                      <option value="1" selected="selected">床位</option>
+                      <option value="2">1张床位</option>
+                      <option value="3">2张床位</option>
+                      <option value="3">3张床位</option>
+                      <option value="3">4张床位</option>
+                      <option value="3">5张床位</option>
+                      <option value="3">6张床位</option>
+                      <option value="3">7张床位</option>
+                      <option value="3">8张床位</option>
+                      <option value="3">9张床位</option>
+                      <option value="3">10张床位</option>
+                      <option value="3">11张床位</option>
+                      <option value="3">12张床位</option>
+                      <option value="3">13张床位</option>
+                      <option value="3">14张床位</option>
+                      <option value="3">15张床位</option>
+                      <option value="9">16张床位及以上</option>
+                    </select><span class="am-form-caret"></span></li>
+                  </ui>
+                </div>
+              </div>
+            </div>
+          </dd>
+        </dl>
+      </section>
+    </div>
+    <div class="results">
+      <div class="result-list">
+        <div class="am-g am-g-fixed">
+          <div class="am-u-sm-6">
+            <div class="list-img">
+              <div class="am-slider am-slider-b1">
+                <ul class="am-slides">
+                  <li>
+                    <img src="http://s.amazeui.org/media/i/demos/bing-1.jpg">
+                  </li>
+                  <li>
+                    <img src="http://s.amazeui.org/media/i/demos/bing-2.jpg">
+                  </li>
+                </ul>
+              </div>    
+              <div class="list-price">¥100
+              </div>
+            </div>
+            <div class="list-body">
+              <a class="pull-right user-image" href="/users/show/2732673">
+                <img class="am-img-thumbnail am-circle" alt="" ng-src="media/favicon.jpg">
+              </a>
+              <a href="#/room/3628791/2016-04-08/2016-04-09/1">
+                <h3 class="room-title" title="All you need is a place to sleep"> All you need is a place to sleep 
+                </h3>
+              </a>
+              <div class="room-comment">
+                <a href="/rooms/3628791"> 独立房间 ·20条评价 ·Crows Nest乌鸦巢 </a>
+              </div>
+            </div>
+          </div>
+          <div class="am-u-sm-6">
+            <div class="list-img">
+              <div class="am-slider am-slider-b1">
+                <ul class="am-slides">
+                  <li>
+                    <img src="http://s.amazeui.org/media/i/demos/bing-1.jpg">
+                  </li>
+                  <li>
+                    <img src="http://s.amazeui.org/media/i/demos/bing-2.jpg">
+                  </li>
+                </ul>
+              </div>    
+              <div class="list-price">¥110
+              </div>
+            </div>
+            <div class="list-body">
+              <a class="pull-right user-image" href="/users/show/2732673">
+                <img class="am-img-thumbnail am-circle" alt="" ng-src="media/favicon.jpg">
+              </a>
+              <a href="/rooms/3628791">
+                <h3 class="room-title" title="All you need is a place to sleep"> All you need is a place to sleep 
+                </h3>
+              </a>
+              <div class="room-comment">
+                <a href="/rooms/3628791"> 独立房间 ·30条评价 ·Crows Nest乌鸦巢 </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="am-g am-g-fixed">
+          <div class="am-u-sm-6">
+            <div class="list-img">
+              <div class="am-slider am-slider-b1">
+                <ul class="am-slides">
+                  <li>
+                    <img src="http://s.amazeui.org/media/i/demos/bing-1.jpg">
+                  </li>
+                  <li>
+                    <img src="http://s.amazeui.org/media/i/demos/bing-2.jpg">
+                  </li>
+                </ul>
+              </div>    
+              <div class="list-price">¥120
+              </div>
+            </div>
+            <div class="list-body">
+              <a class="pull-right user-image" href="/users/show/2732673">
+                <img class="am-img-thumbnail am-circle" alt="" ng-src="media/favicon.jpg">
+              </a>
+              <a href="/rooms/3628791">
+                <h3 class="room-title" title="All you need is a place to sleep"> All you need is a place to sleep 
+                </h3>
+              </a>
+              <div class="room-comment">
+                <a href="/rooms/3628791"> 独立房间 ·40条评价 ·Crows Nest乌鸦巢 </a>
+              </div>
+            </div>
+          </div>
+          <div class="am-u-sm-6">
+            <div class="list-img">
+              <div class="am-slider am-slider-b1">
+                <ul class="am-slides">
+                  <li>
+                    <img src="http://s.amazeui.org/media/i/demos/bing-1.jpg">
+                  </li>
+                  <li>
+                    <img src="http://s.amazeui.org/media/i/demos/bing-2.jpg">
+                  </li>
+                </ul>
+              </div>    
+              <div class="list-price">¥130
+              </div>
+            </div>
+            <div class="list-body">
+              <a class="pull-right user-image" href="/users/show/2732673">
+                <img class="am-img-thumbnail am-circle" alt="" ng-src="media/favicon.jpg">
+              </a>
+              <a href="/rooms/3628791">
+                <h3 class="room-title" title="All you need is a place to sleep"> All you need is a place to sleep 
+                </h3>
+              </a>
+              <div class="room-comment">
+                <a href="/rooms/3628791"> 独立房间 ·50条评价 ·Crows Nest乌鸦巢 </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="result-footer">
+        <div class="results-count">1000个以上的出租房源中的1~10
+        </div>
+        <div class="pagination-block">
+          <ul class="am-pagination">
+            <li class="am-disabled"><a href="#">&laquo;</a></li>
+            <li class="am-active"><a href="#">1</a></li>
+            <li><a href="#">2</a></li>
+            <li><a href="#">3</a></li>
+            <li><a href="#">4</a></li>
+            <li><a href="#">5</a></li>
+            <li><a href="#">&raquo;</a></li>
+          </ul>
+        </div>
+        <div class="footer-destination">澳大利亚 > 新南威尔士州 > 悉尼
+        </div>
+      </div>
+    </div>
+    <div class="go-top-toolbar">
+      <a title="回到顶部" class="am-icon-btn am-icon-arrow-up am-active" id="go-top" ng-click="goTop()"></a>
+    </div>
+  </div>
+
+  <div class="map">
+  </div>
+</div>
+
+<div id="login" class="am-modal" tabindex="-1">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">登录
+    </div>
+    <div class="am-modal-bd">
+      <form class="am-form">
+        <div class="am-input-group">
+          <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+          <input type="text" class="am-form-field" placeholder="注册邮箱/手机号">
+        </div>
+        <div class="am-input-group">
+          <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+          <input type="text" class="am-form-field" placeholder="密码">
+        </div>
+        <div>
+          <div class="am-u-sm-4 am-checkbox">
+            <label>
+              <input type="checkbox">记住账号
+            </label>
+          </div>
+          <div class="am-u-sm-5 z5j-forget-password">
+            <a>忘记密码？
+            </a>
+          </div>
+        </div>
+        <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block">登 录</button>
+      </form>
+      <hr>
+      <div class="z5j-modal-footer">还没有帐号？
+        <a ng-click="openSignup()"> 注册
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="signup" class="am-modal" tabindex="-1">
+  <div class="am-modal-dialog">
+    <div class="am-modal-hd">注册
+    </div>
+    <div class="am-modal-bd">
+      <form class="am-form">
+        <div class="am-input-group">
+          <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+          <input type="text" class="am-form-field" placeholder="姓">
+          <input type="text" class="am-form-field" placeholder="名">
+        </div>
+        <div class="am-input-group">
+          <span class="am-input-group-label"><i class="am-icon-at am-icon-fw"></i></span>
+          <input type="text" class="am-form-field" placeholder="邮箱">
+        </div>
+        <div class="am-input-group">
+          <span class="am-input-group-label"><i class="am-icon-mobile am-icon-fw"></i></span>
+          <input type="text" class="am-form-field" placeholder="手机号">
+        </div>
+        <div class="am-input-group">
+          <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+          <input type="text" class="am-form-field" placeholder="密码">
+          <input type="text" class="am-form-field" placeholder="确认密码">
+        </div>
+        <div class="am-g">
+          <div class="am-checkbox-inline">
+            <label>
+              <input type="checkbox">同意收取优惠券及信息
+            </label>
+          </div>
+        </div>
+        <div class="z5j-small-left">注册即代表我同意
+          <a data-popup="true" href="/terms">服务条款</a>
+          、
+          <a data-popup="true" href="/terms/privacy_policy">隐私政策</a>
+          、
+          <a data-popup="true" href="/terms/guest_refund_policy">房客退款政策</a>
+          及
+          <a data-popup="true" href="/terms/host_guarantee">房东保障计划条款</a>
+          。
+        </div>
+        <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block">注 册</button>
+      </form>
+      <hr>
+      <div class="z5j-modal-footer">已经是《住我家》会员？
+        <a ng-click="openLogin()"> 登录
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

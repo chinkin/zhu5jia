@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# 2012-12-21 VERSION 0.0.1
+
+CACHE:
+Pics/*
+Phps/*
+JSs/*
+CSSs/*
+
+NETWORK:
+
+FALLBACK:

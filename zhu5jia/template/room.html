@@ -1,0 +1,768 @@
+<link rel="stylesheet" href="css/roomdetails.css">
+<header class="am-topbar am-topbar-no-bottom">
+  <div class="am-container-full">
+    <h1 class="am-topbar-brand">
+      <a href="http://test.zhu5jia.com"><img ng-src="../Picture/favicon.jpg" /> 住我家-四海如家</a>
+    </h2>
+
+    <div class="am-collapse am-topbar-collapse" id="collapse-head">
+      <div class="am-topbar-right">
+        <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm">发布我的房源</button>
+      </div>
+      <div class="am-topbar-right">
+        <button class="am-btn am-btn-transparent am-topbar-btn am-btn-sm"><span class="am-icon-question"></span> 帮助</button>
+      </div>
+      <div class="am-topbar-right">
+        <button class="am-btn am-btn-transparent am-topbar-btn am-btn-sm"><span class="am-icon-pencil"></span> 注册</button>
+      </div>
+      <div class="am-topbar-right">
+        <button class="am-btn am-btn-transparent am-topbar-btn am-btn-sm"><span class="am-icon-user"></span> 登录</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="room">
+  <div id="photos" class="with-photos">
+    <div class="cover-img" style="background-image:url(http://s.cn.bing.net/az/hprichbg/rb/TheLuxorHotel_ZH-CN12121725266_1920x1080.jpg)">
+    </div>
+  </div>
+  <div id="summary">
+    <div class="page-container-responsive">
+      <div class="am-g">
+        <div class="am-u-sm-8 summary-container">
+          <div class="am-g">
+            <div class="am-u-sm-3 owner text-muted">
+              <a class="user-image" title="联系房东" href="/users/show/2732673">
+                <img class="am-img-thumbnail am-circle" alt="" ng-src="../Picture/favicon.jpg">
+              </a>
+              <div>Anna
+              </div>
+            </div>
+            <div class="am-u-sm-9">
+              <h1 class="room-title">All you need is a place to sleep
+              </h2>
+              <div class="room-address text-muted">
+                <a class="link-reset" href="#neighborhood">沙利山, NSW, 澳大利亚</a>
+                <a class="link-reset hide-sm" href="#reviews">
+                  <div class="star-rating">
+                    <span class="icon icon-beach am-icon-star"></span>
+                    <span class="icon icon-beach am-icon-star"></span>
+                    <span class="icon icon-beach am-icon-star"></span>
+                    <span class="icon icon-beach am-icon-star-half-o"></span>
+                    <span class="icon icon-beach am-icon-star-o"></span>
+                  </div>
+                  (<span>176</span>)
+                </a>
+              </div>
+              <div class="am-g room-information text-muted">
+                <div class="am-u-sm-3">
+                  <i class="icon am-icon-home am-icon-md"></i>
+                  <div>独立屋
+                  </div>
+                </div>
+                <div class="am-u-sm-3">
+                  <i class="icon am-icon-group am-icon-md"></i>
+                  <div>6位房客
+                  </div>
+                </div>
+                <div class="am-u-sm-3">
+                  <i class="icon am-icon-bed am-icon-md"></i>
+                  <div>3张床
+                  </div>
+                </div>
+                <div class="am-u-sm-3">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="am-u-sm-4">
+          <div data-am-sticky="{top:40}">
+            <form id="book_it_form" method="post" action="https://zh.airbnb.com/payments/book?hosting_id=3628791&s=DREQ" accept-charset="UTF-8">
+              <div id="pricing" itemtype="http://schema.org/Offer" itemscope="" itemprop="offers">
+                <div id="price_amount">
+                  <h2>¥207</h2>
+                </div>
+                <div id="payment-period-container">
+                  <div id="per_night">每晚 
+                  </div>
+                  <div id="per_month" class="am-hide">每月
+                    <i id="price-info-tooltip" class="icon icon-question hide" data-behavior="tooltip"></i>
+                  </div>
+                </div>
+              </div>
+              <div id="book_it" class="display-subtotal">
+                <div class="panel">
+                  <div class="form-fields">
+                    <div class="am-g">
+                      <div class="am-u-sm-9">
+                        <div class="am-g">
+                          <div class="am-u-sm-6">
+                            <label for="checkin"> 入住日期 </label>
+                            <input id="checkin" class="am-form-field" type="text" data-am-datepicker placeholder="yyyy-mm-dd" value="2015-08-08">
+                          </div>
+                          <div class="am-u-sm-6">
+                            <label for="checkout"> 退房日期 </label>
+                            <input id="checkout" class="am-form-field" type="text" data-am-datepicker placeholder="yyyy-mm-dd" value="2015-08-18">
+                          </div>
+                        </div>
+                      </div>
+                      <div class="am-u-sm-3">
+                        <label for="adults"> 房客 </label>
+                          <select id="adult">
+                            <option value="1">1</option>
+                          </select><span class="am-form-caret"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="book_it_status">
+                    <div id="book_it_enabled">
+                      <div id="subtotal_area" class="panel-padding-fit">
+                        <table class="am-table am-table-cell-bordered am-table-compact">
+                          <tbody>
+                            <tr>
+                              <td>¥207 x 8晚
+                                <i id="accommodation-tooltip" class="icon icon-question"></i>
+                              </td>
+                              <td class="table-cell-price">¥1653</td>
+                            </tr>
+                            <tr>
+                              <td>服务费
+                                <i id="service-fee-tooltip" class="icon icon-question"></i>
+                              </td>
+                              <td class="table-cell-price">¥201</td>
+                            </tr>
+                            <tr class="table-row-total">
+                              <td>总价</td>
+                              <td class="table-cell-price">¥1853</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <button id="book_it_button" class="am-btn am-btn-primary am-btn-block am-radius" type="submit">
+                        <span class="book-it"> 申请预订 </span>
+                      </button>
+                    </div>
+                    <div id="book_it_disabled" class="am-hide">
+                      <p id="book_it_disabled_message">指定期间该房源不可出租。</p>
+                      <a id="view_other_listings_button" class="am-btn am-btn-default am-btn-block am-radius" href=""> 查看其它房源 </a>
+                    </div>
+                  </div>
+                  <div id="book_it_urgency_commitment">在这里看到了想要的房源？赶快预订—
+                    <b>本周108人查看了Anna的房源。</b>
+                  </div>
+                  <div id="my_favorite">
+                    <button id="add_it_button" class="am-btn am-btn-default am-btn-block am-radius">
+                      <i class="icon am-icon-heart-o am-icon-sm"></i>
+                      <span id="added_flag"> 加入收藏 </span>
+                    </button>
+                  </div>
+                  <div class="other-actions">
+                    <div class="am-g social-share">
+                      <span class="share-title"> 分享： </span>
+                      <span class="share-triggers">
+                        <a class="share-btn am-icon-envelope-o" href="#" title="电子邮件" rel="nofollow" data-network="email" data-email-share-link="/rooms/4290560/email_listing">
+                        </a>
+                        <a class="share-btn am-icon-weibo" target="_blank" rel="nofollow" title="微博" href="http://service.weibo.com/share/share.php?url=https%3A%2F%2Fzh.airbnb.com%2Frooms%2F4290560%3Fs%3D11&title=%E5%96%9C%E6%AC%A2%E8%BF%99%E4%B8%AA%EF%BC%81%22%E4%BD%8D%E4%BA%8ERozelle%E7%9A%84A+whole+floor+to+yourself%21%22+%40airbnb+%23Travel&pic=https%3A%2F%2Fa1.muscache.com%2Fic%2Fpictures%2F57751504%2F12f76398_original.jpg%3Finterpolation%3Dlanczos-none%26size%3Dx_medium%26output-format%3Djpg%26output-quality%3D70%7C%7Chttps%3A%2F%2Fa0.muscache.com%2Fic%2Fpictures%2F57750952%2F87602b99_original.jpg%3Finter...lation%3Dlanczos-none%26size%3Dx_medium%26output-format%3Djpg%26output-quality%3D70%7C%7Chttps%3A%2F%2Fa0.muscache.com%2Fic%2Fpictures%2F57751197%2Fc51822c2_original.jpg%3Finterpolation%3Dlanczos-none%26size%3Dx_medium%26output-format%3Djpg%26output-quality%3D70%7C%7Chttps%3A%2F%2Fa0.muscache.com%2Fic%2Fpictures%2F57751150%2Fb29c66ad_original.jpg%3Finterpolation%3Dlanczos-none%26size%3Dx_medium%26output-format%3Djpg%26output-quality%3D70&language=zh_cn&ralateUid=3787942764&searchPic=true&appkey=1437815036" data-network="weibo">
+                        </a>
+                        <a class="share-btn am-icon-qq" target="_blank" rel="nofollow" title="QQ空间" href="http://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https%3A%2F%2Fzh.airbnb.com%2Frooms%2F4290560%3Fs%3D25&title=%E5%8E%BB%E7%9C%8B%E7%9C%8BAirbnb%E7%9A%84%E8%BF%99%E4%B8%AA%E8%B6%85%E6%A3%92%E7%9A%84%E6%88%BF%E6%BA%90%3A+%E4%BD%8D%E4%BA%8ERozelle%E7%9A%84A+whole+floor+to+yourself%21&desc=&summary=%E4%BD%8D%E4%BA%8E%E6%BE%B3%E5%A4%A7%E5%88%A9%E4%BA%9ARozelle%E7%9A%84%E7%8B%AC%E7%AB%8B%E5%B1%8B&site=&pics=https%3A%2F%2Fa1.muscache.com%2Fic%2Fpictures%2F57751504%2F12f76398_original.jpg%3Finterpolation%3Dlanczos-none%26size%3Dx_medium%26output-format%3Djpg%26output-quality%3D70" data-network="qzone">
+  <!--                        <div class="qzone-logo"></div>
+  -->
+                        </a>
+                        <a class="share-btn am-icon-weixin" target="_blank" rel="nofollow" title="" href="" data-network="weixin">
+                        </a>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div id="highlight_cancellation_container">
+                  <div class="am-g">
+                    <div class="am-u-sm-2">
+                      <i class="icon-beach am-icon-trophy am-icon-lg"></i>
+                    </div>
+                    <div class="am-u-sm-10 highlight-cancellation">这位房东采用了灵活退订政策：入住前一天取消预订可获得全额退款（服务费除外）。 
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <input id="hosting_id" type="hidden" value="3628791" name="hosting_id">
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="details">
+    <div class="page-container-responsive">
+      <div class="am-g">
+        <div class="am-u-sm-8">
+          <h2> 关于此房源 </h2>
+          <div id="room_agent">通过Airbnb，您可以在人们家中找到独一无二的住宿体验——从独栋房子到公寓，再到树屋和圆顶小屋。以下的房源详情阐述了此房源所提供的一切。如有任何疑问，您可以直接联系房东。
+          </div>
+          <hr>
+          <div class="am-g">
+            <div class="am-u-sm-3">
+              <div class="text-muted"> 房源
+              </div>
+            </div>
+            <div class="am-u-sm-9">
+              <div class="am-g">
+                <div class="am-u-sm-6">
+                  <div>床型：
+                    <strong>实体床</strong>
+                  </div>
+                  <div>房源类型：
+                    <strong>
+                      <a class="link-reset" href="/s/Rozelle--Australia?type=house">独立屋</a>
+                    </strong>
+                  </div>
+                  <div>可住：
+                    <strong>2</strong>
+                  </div>
+                  <div>卧室：
+                    <strong>1</strong>
+                  </div>
+                  <div>卫生间：
+                    <strong>1</strong>
+                  </div>
+                </div>
+                <div class="am-u-sm-6">
+                  <div>床位：
+                    <strong>1</strong>
+                  </div>
+                  <div>入住时间：
+                    <strong>18:00</strong>
+                  </div>
+                  <div>退房时间：
+                    <strong>12:00</strong>
+                  </div>
+                  <div>是否豢养宠物:
+                    <strong>有一些宠物</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="am-g">
+            <div class="am-u-sm-3">
+              <div class="text-muted"> 便利设施
+              </div>
+            </div>
+            <div class="am-u-sm-9">
+              <div id="amenities" class="am-g">
+                <div class="am-u-sm-6">
+                  <div>
+                    <i class="icon h3 icon-meal"></i>
+                    <span id="amenity-short-tooltip-trigger-8"> 厨房 </span>
+                  </div>
+                  <div>
+                    <i class="icon h3 icon-internet"></i>
+                    <span id="amenity-short-tooltip-trigger-3"> 网络 </span>
+                  </div>
+                  <div>
+                    <i class="icon h3 icon-essentials"></i>
+                    <span id="amenity-short-tooltip-trigger-40"> 生活必需品 </span>
+                  </div>
+                </div>
+                <div class="am-u-sm-6">
+                  <div>
+                    <i class="icon h3 icon-air-conditioning"></i>
+                    <span id="amenity-short-tooltip-trigger-5"> 空调 </span>
+                  </div>
+                  <div>
+                    <i class="icon h3 icon-washer"></i>
+                    <span id="amenity-short-tooltip-trigger-33"> 洗衣机 </span>
+                  </div>
+                  <a id="show_more" data-am-collapse="" href="#amenities_details">
+                    <strong>更多内容</strong>
+                  </a>
+                </div>
+              </div>
+              <div id="amenities_details" class="am-panel-collapse am-collapse">
+               <div class="am-g">
+                <div class="am-u-sm-6">
+                  <div>
+                    <i class="icon h3 icon-meal"></i>
+                    <span id="amenity-short-tooltip-trigger-8"> 厨房 </span>
+                  </div>
+                  <div>
+                    <i class="icon h3 icon-internet"></i>
+                    <span id="amenity-short-tooltip-trigger-3"> 网络 </span>
+                  </div>
+                  <div>
+                    <i class="icon h3 icon-essentials"></i>
+                    <span id="amenity-short-tooltip-trigger-40"> 生活必需品 </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-2">
+                      <del> 有线电视 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-9">
+                      <del> 内部提供免费停车位 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-16">
+                      <del> 早餐 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-12">
+                      <del> 允许携带宠物 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-31">
+                      <del> 欢迎家庭/携带孩子入住 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-32">
+                      <del> 适合举办活动 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-14">
+                      <del> 门卫 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-7">
+                      <del> 游泳池 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-25">
+                      <del> 热水浴缸 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-15">
+                      <del> 健身房 </del>
+                    </span>
+                  </div>
+                </div>
+                <div class="am-u-sm-6">
+                  <div>
+                    <i class="icon h3 icon-air-conditioning"></i>
+                    <span id="amenity-short-tooltip-trigger-5"> 空调 </span>
+                  </div>
+                  <div>
+                    <i class="icon h3 icon-washer"></i>
+                    <span id="amenity-short-tooltip-trigger-33"> 洗衣机 </span>
+                  </div>
+                  <div>
+                    <i class="icon h3 icon-dryer"></i>
+                    <span id="amenity-long-tooltip-trigger-34"> 烘干机 </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-30">
+                      <del> 暖气 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-11">
+                      <del> 允许吸烟 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-6">
+                      <del> 无障碍设施 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-21">
+                      <del> 大厦内电梯 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-27">
+                      <del> 室内壁炉 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-28">
+                      <del> 蜂鸣器/无线对讲机 </del>
+                    </span>
+                  </div>
+                  <div>
+                    <i class="icon h3 icon-ok"></i>
+                    <span id="amenity-long-tooltip-trigger-35"> 烟雾探测器 </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-36">
+                      <del> 一氧化碳探测器 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-37">
+                      <del> 急救包 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-38">
+                      <del> 安全卡 </del>
+                    </span>
+                  </div>
+                  <div class="text-muted">
+                    <span id="amenity-long-tooltip-trigger-39">
+                      <del> 灭火器 </del>
+                    </span>
+                  </div>
+                </div>
+               </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="am-g">
+            <div class="am-u-sm-3">
+              <div class="text-muted"> 价格
+              </div>
+            </div>
+            <div class="am-u-sm-9">
+              <div class="am-g">
+                <div class="am-u-sm-6">
+                  <div>额外人员：
+                    <strong>无需付费</strong>
+                  </div>
+                  <div>清洁费：
+                    <strong>¥48</strong>
+                  </div>
+                  <div>每周价格：
+                    <strong>
+                      <span id="weekly_price">¥3008</span>/周
+                    </strong>
+                  </div>
+                </div>
+                <div class="am-u-sm-6">
+                  <div>
+                    <a class="link-reset-color" href="/s/St-Leonards--Australia?sublets=monthly">月租价格：</a>
+                    <strong>
+                      <span id="monthly_price">¥11584</span>/月
+                    </strong>
+                  </div>
+                  <div>退订政策：
+                    <strong>
+                      <a id="cancellation-policy" data-popup="true" href="/home/cancellation_policies#flexible">灵活</a>
+                    </strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="am-g">
+            <div class="am-u-sm-3">
+              <div class="text-muted"> 描述
+              </div>
+            </div>
+            <div class="am-u-sm-9 expandable">
+              <div id="discription" class="expandable-content expandable-content-long">
+                <p>古朴，一楼的小屋式空间广阔2庭院。有抱负的园丁和烧烤爱好者特别欢迎！ <br />通过共同的庭院轮你的行李箱，欣赏树木，竹子和童话般的灯在树上。这是一个真正的绿洲。 </p><p>我们的空间是安静和凉爽，放松和宁静。这一切都在一个水平上，并绵延到两个天井，所以有很多的空间可以一起或单独不同的地方，我们是在那一刻就进入/外向规模都感觉！ </p><p>我的家就是你的家。 </p><p>开心的玩导游，并提供电梯以及！如果你不是出城吃晚饭我煮相当有规律了。 </p><p>雷德芬是最后的“内城”街区之一。步行距离中央商务区，但外面的它足以提供了极大的天际线景观和古朴的感觉，你就不能得到在钢筋水泥的丛林。 </p><p>文化，咖啡厅和一个新的时髦十岁上下的酒吧每星期似乎开幕！非常酷的区域始终过渡，惊人的氛围。 </p><p>从机场，距离中央车站，地下步行8分钟15分钟车程，覆盖并提供安全的停车场。 </p><p>欢迎您使用厨房做饭，我很高兴与大家分享钉书钉和我保持一个非常宽松的环境。干净整洁但不挑剔的一切是那么确切。 </p>
+                <div id="discription_cover" class="expandable-indicator"></div>
+              </div>
+              <a id="show_discription_all" data-am-collapse="">
+                <strong>更多内容</strong>
+              </a>
+            </div>
+          </div>
+          <hr>
+          <div class="am-g">
+            <div class="am-u-sm-3">
+              <div class="text-muted"> 房屋守则
+              </div>
+            </div>
+            <div class="am-u-sm-9 expandable">
+              <div id="rules" class="expandable-content">
+                <p>古朴，一楼的小屋式空间广阔2庭院。有抱负的园丁和烧烤爱好者特别欢迎！ <br />通过共同的庭院轮你的行李箱，欣赏树木，竹子和童话般的灯在树上。这是一个真正的绿洲。 </p><p>我们的空间是安静和凉爽，放松和宁静。这一切都在一个水平上，并绵延到两个天井，所以有很多的空间可以一起或单独不同的地方，我们是在那一刻就进入/外向规模都感觉！ </p><p>我的家就是你的家。 </p>
+                <div id="rules_cover" class="expandable-indicator"></div>
+              </div>
+              <a id="show_rules_all" data-am-collapse="">
+                <strong>更多内容</strong>
+              </a>
+            </div>
+          </div>
+          <hr>
+          <div class="am-g">
+            <div class="am-u-sm-3">
+              <div class="text-muted"> 租用条件
+              </div>
+            </div>
+            <div class="am-u-sm-9">最少住宿天数
+              <strong>1晚</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="reviews">
+    <div class="page-container-responsive">
+      <div class="am-g">
+        <div class="am-u-sm-8"> 
+          <div id="review_summary">
+            <h2>196条评价  
+              <div class="star-rating">
+                <span class="icon icon-beach am-icon-star"></span>
+                <span class="icon icon-beach am-icon-star"></span>
+                <span class="icon icon-beach am-icon-star"></span>
+                <span class="icon icon-beach am-icon-star-half-o"></span>
+                <span class="icon icon-beach am-icon-star-o"></span>
+              </div>
+            </h2>
+            <div class="am-g">
+              <div class="am-u-sm-3">
+                <div class="text-muted"> 各项评分 </div>
+              </div>
+              <div class="am-u-sm-9">
+                <div class="am-g">
+                  <div class="am-u-sm-6">
+                    <div>
+                      <div class="star-rating pull-right">
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star-half-o"></span>
+                        <span class="icon icon-beach am-icon-star-o"></span>
+                      </div>
+                      <strong> 符合描述 </strong>
+                    </div>
+                    <div>
+                      <div class="star-rating pull-right">
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star-half-o"></span>
+                        <span class="icon icon-beach am-icon-star-o"></span>
+                      </div>
+                      <strong> 沟通交流 </strong>
+                    </div>
+                    <div>
+                      <div class="star-rating pull-right">
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star-half-o"></span>
+                        <span class="icon icon-beach am-icon-star-o"></span>
+                      </div>
+                      <strong> 清洁舒适 </strong>
+                    </div>
+                  </div>
+                  <div class="am-u-sm-6">
+                    <div>
+                      <div class="star-rating pull-right">
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star-half-o"></span>
+                        <span class="icon icon-beach am-icon-star-o"></span>
+                      </div>
+                      <strong> 地理位置 </strong>
+                    </div>
+                    <div>
+                      <div class="star-rating pull-right">
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star-half-o"></span>
+                        <span class="icon icon-beach am-icon-star-o"></span>
+                      </div>
+                      <strong> 入住便捷 </strong>
+                    </div>
+                    <div>
+                      <div class="star-rating pull-right">
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star"></span>
+                        <span class="icon icon-beach am-icon-star-half-o"></span>
+                        <span class="icon icon-beach am-icon-star-o"></span>
+                      </div>
+                      <strong> 物有所值 </strong>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="review_content">
+            <div class="am-g">
+              <div class="am-u-sm-3 customer text-muted">
+                <a class="user-image" title="Mark" href="/users/show/2732673">
+                  <img class="am-img-thumbnail am-circle" alt="" ng-src="../Picture/favicon.jpg">
+                </a>
+                <div>Mark
+                </div>
+              </div>
+              <div class="am-u-sm-9">
+                <div class="review-text expandable">
+                  <div id="" class="expandable-content">
+                    <p>古朴，一楼的小屋式空间广阔2庭院。有抱负的园丁和烧烤爱好者特别欢迎！ <br />通过共同的庭院轮你的行李箱，欣赏树木，竹子和童话般的灯在树上。这是一个真正的绿洲。 </p><p>我们的空间是安静和凉爽，放松和宁静。这一切都在一个水平上，并绵延到两个天井，所以有很多的空间可以一起或单独不同的地方，我们是在那一刻就进入/外向规模都感觉！ </p>
+                    <div id="" class="expandable-indicator expandable-indicator-light"></div>
+                  </div>
+                  <a id="" data-am-collapse="">
+                    <strong>更多内容</strong>
+                  </a>
+                </div>
+                <div class="text-muted">
+                  来自Alice Springs, Australia ·
+                  <span class="date">2015年5月</span>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="am-g">
+              <div class="am-u-sm-3 customer text-muted">
+                <a class="user-image" title="Mellisa" href="/users/show/2732673">
+                  <img class="am-img-thumbnail am-circle" alt="" ng-src="../Picture/favicon.jpg">
+                </a>
+                <div>Mellisa
+                </div>
+              </div>
+              <div class="am-u-sm-9">
+                <div class="review-text expandable">
+                  <div id="" class="expandable-content">
+                    <p>古朴，一楼的小屋式空间广阔2庭院。有抱负的园丁和烧烤爱好者特别欢迎！ <br />通过共同的庭院轮你的行李箱，欣赏树木，竹子和童话般的灯在树上。这是一个真正的绿洲。 </p><p>我们的空间是安静和凉爽，放松和宁静。这一切都在一个水平上，并绵延到两个天井，所以有很多的空间可以一起或单独不同的地方，我们是在那一刻就进入/外向规模都感觉！ </p>
+                    <div id="" class="expandable-indicator expandable-indicator-light"></div>
+                  </div>
+                  <a id="" data-am-collapse="">
+                    <strong>更多内容</strong>
+                  </a>
+                </div>
+                <div class="text-muted">
+                  来自Alice Springs, Australia ·
+                  <span class="date">2015年5月</span>
+                </div>
+              </div>
+            </div>
+            <div class="am-g review-bottom">
+              <div class="am-u-sm-9 am-u-sm-offset-3">
+                <h3> 此房东的其他房源收到了223条评价 </h3>
+                <a class="am-btn am-btn-default am-radius" href="/users/show/5297000">查看其他评价</a>
+                <div class="pagination-block">
+                  <ul class="am-pagination">
+                    <li class="am-disabled"><a href="#">&laquo;</a></li>
+                    <li class="am-active"><a href="#">1</a></li>
+                    <li><a href="#">2</a></li>
+                    <li><a href="#">3</a></li>
+                    <li><a href="#">4</a></li>
+                    <li><a href="#">5</a></li>
+                    <li><a href="#">&raquo;</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="host">
+    <div class="page-container-responsive">
+      <div class="am-g">
+        <div class="am-u-sm-8">
+          <h2> 关于房东 Anna </h2>
+          <div class="am-g">
+            <div class="am-u-sm-3">
+              <a class="user-image" title="Anna" href="/users/show/2732673">
+                <img class="am-img-thumbnail am-circle" alt="" ng-src="../Picture/favicon.jpg">
+              </a>
+            </div>
+            <div id="host_profile" class="am-u-sm-9">
+              <div class="expandable">
+                <div class="expandable-content">
+                  <p>古朴，一楼的小屋式空间广阔2庭院。有抱负的园丁和烧烤爱好者特别欢迎！ <br />通过共同的庭院轮你的行李箱，欣赏树木，竹子和童话般的灯在树上。这是一个真正的绿洲。 </p><p>我们的空间是安静和凉爽，放松和宁静。这一切都在一个水平上，并绵延到两个天井，所以有很多的空间可以一起或单独不同的地方，我们是在那一刻就进入/外向规模都感觉！ </p>
+                  <div>
+                    <a href="/users/show/1820335">
+                      <strong>查看完整个人资料</strong>
+                    </a>
+                  </div>
+                  <div id="" class="expandable-indicator"></div>
+                </div>
+                <a id="" data-am-collapse="">
+                  <strong>更多内容</strong>
+                </a>
+              </div>
+              <div class="am-g">
+                <div class="am-u-sm-6">
+                  <div>Sydney, Australia</div>
+                  <div> 注册时间： 三月 2013 </div>
+                </div>
+                <div class="am-u-sm-6">
+                  <div>回复率
+                    <strong>95%</strong>
+                    <small class="response-details text-muted am-hide"> (过去30天) </small>
+                  </div>
+                  <div>回复时间：
+                    <strong>几小时内</strong>
+                  </div>
+                </div>
+              </div>
+              <button id="contact_host" class="am-btn am-btn-primary am-radius"> 联系房东 </button>
+            </div>
+          </div>
+          <hr>
+          <div class="am-g">
+            <div class="am-u-sm-3">
+              <div class="text-muted"> 信誉 </div>
+            </div>
+            <div class="am-u-sm-9">
+              <div class="am-g">
+                <div class="am-u-sm-3">
+                  <a class="link-reset" href="/users/show/5297000#reviews" rel="nofollow">
+                    <div class="text-center">
+                      <h1 class="badge-pill">
+                        <span class="badge-pill-count">315</span>
+                      </h1>
+                      <div>评价</div>
+                    </div>
+                  </a>
+                </div>
+                <div class="am-u-sm-3">
+                  <a class="link-reset" href="/users/show/5297000#references" rel="nofollow">
+                    <div class="text-center">
+                      <h1 class="badge-pill">
+                        <span class="badge-pill-count">1</span>
+                      </h1>
+                      <div>推荐</div>
+                    </div>
+                  </a>
+                </div>
+                <div class="am-u-sm-3 am-u-end">
+                  <a class="link-reset" href="/users/show/5297000#reviews" rel="nofollow">
+                    <div class="text-center">
+                      <i class="icon am-icon-home am-icon-lg"></i>
+                      <div>身份已验证</div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div id="neighborhood">
+  </div>
+</div>
+
+<script>
+  document.getElementById("show_more").onclick = function(){ 
+    document.getElementById("amenities").style.display = "none"; 
+  }
+  document.getElementById("show_discription_all").onclick = function(){ 
+    document.getElementById("discription").className = "full-content";
+    document.getElementById("discription_cover").style.display = "none";
+    document.getElementById("show_discription_all").style.display = "none";
+  }
+  document.getElementById("show_rules_all").onclick = function(){ 
+    document.getElementById("rules").className = "full-content";
+    document.getElementById("rules_cover").style.display = "none";
+    document.getElementById("show_rules_all").style.display = "none";
+  }
+</script>
