@@ -5,19 +5,18 @@ angular.module('z5j.controllers', [])
 // *******************
 .controller('LandingCtrl', function ($scope, $state, UserService, FileUploader, GeneralService) {
 //图片轮播
-  var $slider = $('#slider');
-  $slider.flexslider({
-    slideShow:false,
-    controlNav:false,
-    directionNav:false
-  });
-  $slider.flexslider('removeSlide', 0);
-  var imagefile = '<li><img src="../media/bing-3.jpg" /></li>';
-  $slider.flexslider('addSlide', imagefile);
-  imagefile = '<li><img src="../media/bing-2.jpg" /></li>';
-  $slider.flexslider('addSlide', imagefile);
-  imagefile = '<li><img src="../media/bing-1.jpg" /></li>';
-  $slider.flexslider('addSlide', imagefile);
+  $scope.transInterval = 5000;
+  $scope.noTransition = false;
+  $scope.noWrapSlides = false;
+  $scope.active = 0;
+  var slides = $scope.slides = [];
+
+  for (var i = 0; i < 3; i++) {
+    slides.push({
+      image: "../media/bing-" + i + ".jpg",
+      id: i
+    });
+  }
 
 //滚动侦测
   $('#community_scrollspy').scrollspy({
@@ -84,7 +83,7 @@ angular.module('z5j.controllers', [])
   $scope.registerData = {
     pushinformation: true
   };
-  $scope.logonFlag = false;
+  $scope.loggedOn = false;
   $scope.portraitImage = "../media/user_pic-225x225.png";
   $scope.mobilephone = {users: {insert: false},
                         user_verifications: {insert: false, isemail: false}
@@ -101,23 +100,23 @@ angular.module('z5j.controllers', [])
 //刷新处理
   $scope.me = UserService.getMe("");
   if (typeof($scope.me) != "undefined" && $scope.me.users.hasOwnProperty("id")) {
-    $scope.logonFlag = true;
+    $scope.loggedOn = true;
   } else {
     if (typeof(window.sessionStorage['User']) != "undefined" && typeof(window.sessionStorage['Token']) != "undefined" && window.sessionStorage['User'] != "" && window.sessionStorage['Token'] != "") {
       UserService.logon(window.sessionStorage['User'], "", window.sessionStorage['Token']).then(function (mydata) {
         if (mydata.success) {
-          $scope.logonFlag = true;
+          $scope.loggedOn = true;
 //          if (typeof(window.sessionStorage['Location']) != "undefined" && window.sessionStorage['Location'] != "") {
 //            $state.go(window.sessionStorage['Location']);
 //          }
           $scope.me.users = mydata.users;
         } else {
-          $scope.logonFlag = false;
+          $scope.loggedOn = false;
           alert(mydata.message);
         }
       });
     } else {
-      $scope.logonFlag = false;
+      $scope.loggedOn = false;
     }
   }
 
@@ -191,10 +190,10 @@ angular.module('z5j.controllers', [])
 
           UserService.logon(window.sessionStorage['User'], "", window.sessionStorage['Token']).then(function (mydata) {
             if (mydata.success) {
-              $scope.logonFlag = true;
+              $scope.loggedOn = true;
               $scope.me.users = mydata.users;
             } else {
-              $scope.logonFlag = false;
+              $scope.loggedOn = false;
               alert(mydata.message);
             }
           });

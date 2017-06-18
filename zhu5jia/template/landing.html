@@ -1,97 +1,91 @@
 <link rel="stylesheet" href="css/landing.css">
-<div class="row-fluid">
+<div class="">
   <div class="navbar navbar-default navbar-fixed-top z5j-background-transparent" role="navigation">
     <div class="container-fluid">
       <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar_collapse" aria-expanded="false">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
         <a class="navbar-brand" href="http://test.zhu5jia.com">
-          <img ng-src="media/favicon.png" />
+          <img alt="zhu5jia" ng-src="media/favicon.png" />
         </a>
       </div>
-    
-      <div ng-if="logonFlag==false">
-        <ul class="nav navbar-nav navbar-right">
+
+      <div class="collapse navbar-collapse" id="navbar_collapse">
+        <ul class="nav navbar-nav navbar-right z5j-margin-top z5j-margin-right" ng-if="loggedOn==false">
           <li class="">
             <button class="btn btn-default">做房东</button>
           </li>
           <li class="">
-          <button class="am-btn z5j-btn-transparent am-topbar-btn am-btn-sm">
-            <span class="am-icon-question"></span> 帮助
+          <button class="btn btn-link">
+            <span class="glyphicon glyphicon-question-sign"></span> 帮助
           </button>
           </li>
           <li class="">
-          <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#signup">
-            <span class="am-icon-pencil"></span> 注册
+          <button class="btn btn-primary" data-toggle="modal" data-target="#signup">
+            <span class="glyphicon glyphicon-pencil"></span> 注册
           </button>
           </li>
           <li class="">
           <button class="btn btn-link" ng-click="checkLocalUser()" data-am-modal="{target: '#login', closeViaDimmer: 1}">
-            <span class="am-icon-user"></span> 登录
+            <span class="glyphicon glyphicon-user"></span> 登录
           </button>
           </li>
         </ul>
-      </div>
-    
-      <div class="am-collapse am-topbar-collapse" id="collapse_head" ng-if="logonFlag==true">
-        <div class="am-topbar-right am-margin-right-xl">
-          <button class="am-btn am-btn-secondary am-topbar-btn am-btn-sm" ng-click="gotoUser()">{{me.users.lastname}}
-            <span ng-if="me.users.gender!='F'">先生</span>
-            <span ng-if="me.users.gender=='F'">女士</span>
-          </button>
-        </div>
-        <div class="am-topbar-right">
-          <button class="am-btn am-btn-transparent am-topbar-btn am-btn-sm">
-            <span class="am-icon-question"></span> 帮助
-          </button>
-        </div>
-        <div class="am-topbar-right">
-          <button class="am-btn am-btn-transparent am-topbar-btn am-btn-sm">
-            <span class="am-icon-pencil"></span> 通知
-          </button>
-        </div>
-        <div class="am-topbar-right">
-          <button class="am-btn am-btn-transparent am-topbar-btn am-btn-sm">
-            <span class="am-icon-user"></span> 房东
-          </button>
-        </div>
+
+        <ul class="nav navbar-nav navbar-right z5j-margin-top z5j-margin-right" ng-if="loggedOn==true">
+          <li class="">
+            <button class="btn btn-link">
+              <span class="glyphicon glyphicon-user"></span> 房东
+            </button>
+          </li>
+          <li class="">
+            <button class="btn btn-link">
+              <span class="glyphicon glyphicon-question-sign"></span> 帮助
+            </button>
+          </li>
+          <li class="">
+            <button class="btn btn-link">
+              <span class="glyphicon glyphicon-bell"></span> 通知
+            </button>
+          </li>
+          <li class="">
+            <button class="btn btn-link" ng-click="gotoUser()">{{me.users.lastname}}
+              <span ng-if="me.users.gender!='F'">先生</span>
+              <span ng-if="me.users.gender=='F'">女士</span>
+            </button>
+          </li>
+        </ul>
       </div>
     </div>
   </div>
 
   <div id="search_wrapper">
-    <div id="slider" class="am-slider am-slider-a1 z5j-slider-backround">
-      <ul class="am-slides">
-        <li>
-          <img src="../media/bing-1.jpg">
-        </li>
-      </ul>
+    <div uib-carousel active="active" interval="transInterval" no-transition="noTransition" no-wrap="noWrapSlides">
+      <div uib-slide ng-repeat="slide in slides track by slide.id" index="slide.id">
+        <img ng-src="{{slide.image}}" style="margin:auto;">
+      </div>
     </div>
   
     <div id="search_area">
-      <div id="get">
-        <div class="am-g">
-          <div class="am-u-lg-12">
-            <div id="get_title">欢迎住我家</div>
-            <p>
-              超过190个国家的当地人欢迎您来住我家。
-            </p>
-            <p>
-              <a href="http://amazeui.org" class="am-btn am-btn-sm btn">新技能get√</a>
-            </p>
-          </div>
-        </div>
-      </div>
       <div id="search">
-        <div class="am-container">
-          <form class="am-form-inline" role="form" method="post">
-            <div class="am-form-group">
-              <input type="text" class="am-form-field destination" placeholder="我想去{{location}}" ng-model="destination"/>
+        <div class="container">
+          <form class="form-inline" role="form" method="post">
+            <div class="form-group">
+              <label class="sr-only" for="">目的地</label>
+              <input type="text" class="form-control z5j-destination" placeholder="我想去{{location}}" ng-model="destination"/>
             </div>
-            <div class="am-form-group">
-              <input id="checkin" type="text" class="am-form-field" placeholder="入住" data-am-datepicker readonly/>
-              <input id="checkout" type="text" class="am-form-field" placeholder="离开" data-am-datepicker readonly/>
+            <div class="form-group">
+              <input id="checkin" type="text" class="form-control" placeholder="入住" data-am-datepicker readonly/>
             </div>
-            <div class="am-form-group">
-              <select id="guest_no" class="adult" data-am-selected>
+            <div class="form-group">
+              <input id="checkout" type="text" class="form-control" placeholder="离开" data-am-datepicker readonly/>
+            </div>
+            <div class="form-group">
+              <select id="guest_no" class="adult">
                 <option value="1" selected="selected">1位成人 </option>
                 <option value="2">2位成人 </option>
                 <option value="3">3位成人 </option>
@@ -102,7 +96,6 @@
                 <option value="8">8位成人 </option>
                 <option value="9">9人及以上</option>
               </select>
-              <span class="am-form-caret"></span>
             </div>
   <!--
             <div class="am-form-group">
@@ -118,7 +111,7 @@
               <span class="am-form-caret"></span>
             </div>
   -->
-            <button type="submit" class="am-btn am-btn-secondary" ng-click="startSearch()">我找</button>
+            <button type="submit" class="btn btn-primary btn-lg" ng-click="startSearch()">我找</button>
           </form>
         </div>
       </div>
