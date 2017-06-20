@@ -42,6 +42,12 @@
 #search .z5j-destination {
   width: 250px;
 }
+#search .adult, #search .child {
+  width: 120px;
+  height: 38px;
+  color: #000000;
+  border: 1px;
+}
 
 #checkin, #checkout {
   width: 120px;
@@ -50,13 +56,6 @@
 
 #checkin {
   margin: 0 -3px 0 0;
-}
-
-#search .adult, #search .child {
-  width: 120px;
-  height: 38px;
-  color: #000000;
-  border: 1px;
 }
 
 #community {
