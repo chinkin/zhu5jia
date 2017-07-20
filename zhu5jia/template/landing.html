@@ -68,20 +68,28 @@
         <img ng-src="{{slide.image}}" style="margin:auto;">
       </div>
     </div>
-  
+
     <div id="search_area">
       <div id="search">
         <div class="container">
           <form class="form-inline" role="form" method="post">
             <div class="form-group">
               <label class="sr-only" for="">目的地</label>
-              <input type="text" class="form-control z5j-destination" placeholder="我想去{{location}}" ng-model="destination"/>
+              <input type="text" class="form-control z5j-destination" placeholder="我想去{{location}}" ng-model="destination" ng-if="!destinationPopover.display"/>
+              <input type="text" class="form-control z5j-destination" uib-popover-template="destinationPopover.templateUrl" placeholder="我想去{{location}}" ng-model="destination" popover-placement="bottom-left" popover-class="z5j-destination-popover" popover-trigger="'focus'" ng-if="destinationPopover.display"/>
+            </div>
+<script type="text/ng-template" id="destinationPopoverTemplate.html">
+    <div ng-repeat="destination in destinationPopover.content">
+      <label ng-click="setDestination(destination)">{{destination}}</label>
+    </div>
+</script>
+            <div class="form-group">
+              <label class="sr-only" for="">入住日期</label>
+              <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="fromDate" is-open="fromPopup.opened" datepicker-options="fromOptions" popup-placement="bottom-right" show-button-bar="false" ng-required="true" ng-click="fromOpen()" placeholder="入住" readonly/>
             </div>
             <div class="form-group">
-              <input id="checkin" type="text" class="form-control" placeholder="入住" data-am-datepicker readonly/>
-            </div>
-            <div class="form-group">
-              <input id="checkout" type="text" class="form-control" placeholder="离开" data-am-datepicker readonly/>
+              <label class="sr-only" for="">离开日期</label>
+              <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="toDate" is-open="toPopup.opened" datepicker-options="toOptions" popup-placement="bottom-left" show-button-bar="false" ng-required="true" ng-click="toOpen()" placeholder="离开" readonly/>
             </div>
             <div class="form-group">
               <select id="guest_no" class="adult">

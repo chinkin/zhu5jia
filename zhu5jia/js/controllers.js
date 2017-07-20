@@ -18,40 +18,74 @@ angular.module('z5j.controllers', [])
     });
   }
 
+//Popover组件
+  $scope.destinationPopover = {
+    content: [],
+    display: false,
+    templateUrl: 'destinationPopoverTemplate.html'
+  };
+  function setSearchHistory() {
+    $scope.destinationPopover.display = true;
+    $scope.destinationPopover.content[0] = "目的地1";
+    $scope.destinationPopover.content[1] = "目的地2";
+  }
+  setSearchHistory();
+  $scope.setDestination = function(destination) {
+    $scope.destination = destination;
+  };
+
+//日期组件
+  $scope.fromOptions = {
+    customClass: getDayClass,
+    showWeeks: true,
+    maxDate: new Date(2028, 11, 30),
+    minDate: new Date(),
+    startingDay: 1
+  };
+  var formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+  $scope.format = formats[1];
+  $scope.fromPopup = {
+    opened: false
+  };
+  $scope.fromOpen = function() {
+    $scope.fromPopup.opened = true;
+  };
+  var nextDay = new Date();
+  nextDay.setDate(nextDay.getDate() + 1);
+  $scope.toOptions = {
+    customClass: getDayClass,
+    showWeeks: true,
+    maxDate: new Date(2028, 11, 31),
+    minDate: new Date(),
+    startingDay: 1
+  };
+  $scope.toOptions.minDate = nextDay;
+  $scope.toPopup = {
+    opened: false
+  };
+  $scope.toOpen = function() {
+    $scope.toPopup.opened = true;
+  };
+  function getDayClass(data) {
+    var date = data.date,
+        mode = data.mode;
+    return '';
+  }
+  $scope.$watch('fromDate', function(newValue, oldValue) {
+    if (newValue === oldValue) { return; }
+    nextDay = angular.copy(newValue);
+    nextDay.setDate(newValue.getDate() + 1);
+    $scope.toOptions.minDate = nextDay;
+    if (typeof($scope.toDate) == "undefined" || newValue >= $scope.toDate) {
+      $scope.toDate = nextDay;
+    }
+  });
+
 //滚动侦测
   $('#community_scrollspy').scrollspy({
     animation: 'fade',
     delay: 50
   });
-
-//日期组件
-  var nowtemp = new Date();
-  var now = new Date(nowtemp.getFullYear(), nowtemp.getMonth(), nowtemp.getDate(), 0, 0, 0, 0);
-  var checkin = $('#checkin').datepicker({
-    dateFormat: 'yyyy-mm-dd',
-    onRender: function(date) {
-      return date.valueOf() < now.valueOf() ? 'am-disabled' : '';
-    }
-  }).on('changeDate.datepicker.amui', function(ev) {
-    if (ev.date.valueOf() >= checkout.date.valueOf()) {
-      var newdate = new Date(ev.date);
-      newdate.setDate(newdate.getDate() + 1);
-      checkout.setValue(newdate);
-    } else {
-      var newdate = new Date(checkout.date);
-      checkout.setValue(newdate);
-    }
-    checkin.close();
-    $('#checkout')[0].focus();
-  }).data('amui.datepicker');
-  var checkout = $('#checkout').datepicker({
-    dateFormat: 'yyyy-mm-dd',
-    onRender: function(date) {
-      return date.valueOf() <= checkin.date.valueOf() ? 'am-disabled' : '';
-    }
-  }).on('changeDate.datepicker.amui', function(ev) {
-    checkout.close();
-  }).data('amui.datepicker');
 
 //加载数据，定义$scope变量
   var generalinformation = {countries: {all: '*'},
