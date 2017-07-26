@@ -125,7 +125,7 @@ angular.module('z5j.controllers', [])
   $scope.registerData = {
     pushinformation: true
   };
-  $scope.loggedOn = true;
+  $scope.loggedOn = false;
   $scope.portraitImage = "../media/user_pic-225x225.png";
   $scope.mobilephone = {users: {insert: false},
                         user_verifications: {insert: false, isemail: false}

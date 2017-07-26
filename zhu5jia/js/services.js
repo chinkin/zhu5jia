@@ -163,7 +163,7 @@ angular.module('z5j.services', [])
                                longterm: '0',
                                status: ''}
                 };
-  var z5j_url = 'https://test.zhu5jia.com';
+  var z5j_url = 'http://test.zhu5jia.com';
 //  var z5j_url = 'http://www.zhu5jia.com';
   this.$get = function($http, $q) {
     return { me: me, account: account, house: house, booking: booking, order: order,
