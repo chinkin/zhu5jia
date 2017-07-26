@@ -18,18 +18,26 @@ angular.module('z5j.controllers', [])
     });
   }
 
-//Popover组件
+//Popover组件(目的地历史)
   $scope.destinationPopover = {
     content: [],
     display: false,
     templateUrl: 'destinationPopoverTemplate.html'
   };
   function setSearchHistory() {
+    if (typeof(window.localStorage['Dest'][0]) == "undefined" || window.localStorage['Dest'][0] == "") {
+      $scope.destinationPopover.display = false;
+      return;
+    }
     $scope.destinationPopover.display = true;
-    $scope.destinationPopover.content[0] = "目的地1";
-    $scope.destinationPopover.content[1] = "目的地2";
+    j = 0;
+    for (i = 0; i < window.localStorage['Dest'].length; i++) {
+      if (typeof(window.localStorage['Dest'][i]) != "undefined" && window.localStorage['Dest'][i] != "") {
+        $scope.destinationPopover.content[j] = window.localStorage['Dest'][i];
+        j++;
+      }
+    }
   }
-  setSearchHistory();
   $scope.setDestination = function(destination) {
     $scope.destination = destination;
   };
@@ -117,7 +125,7 @@ angular.module('z5j.controllers', [])
   $scope.registerData = {
     pushinformation: true
   };
-  $scope.loggedOn = false;
+  $scope.loggedOn = true;
   $scope.portraitImage = "../media/user_pic-225x225.png";
   $scope.mobilephone = {users: {insert: false},
                         user_verifications: {insert: false, isemail: false}
@@ -130,6 +138,11 @@ angular.module('z5j.controllers', [])
   $scope.currentAgent = $scope.agents[1].id;
   $scope.agent = $scope.agents[1].name;
   $scope.genders = GeneralService.getGeneral("General", "genders");
+  if (typeof(window.localStorage['Dest']) == "undefined") {
+    window.localStorage['Dest'] = [];
+  }
+  setSearchHistory();
+
 
 //刷新处理
   $scope.me = UserService.getMe("");
@@ -159,7 +172,13 @@ angular.module('z5j.controllers', [])
     if ($scope.destination == "") {
       alert("至少给个目的地吧");
     } else {
-      $state.go('search', {cityTo:$scope.destination, timeFrom:$('#checkin').val(), timeTo:$('#checkout').val(), guestNo:$('#guest_no').val()});
+      for (i = 4; i > 0; i--) {
+        if (typeof(window.localStorage['Dest'][i - 1]) != "undefined" && window.localStorage['Dest'][i - 1] != "") {
+          window.localStorage['Dest'][i] = window.localStorage['Dest'][i - 1];
+        }
+      }
+      window.localStorage['Dest'][0] = $scope.destination;
+      $state.go('search', {cityTo:$scope.destination, timeFrom:$scope.destination.fromDate, timeTo:$scope.destination.toDate, guestNo:$scope.guestNo});
     }
   }
 

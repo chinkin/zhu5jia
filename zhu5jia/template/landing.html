@@ -8,7 +8,7 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="http://test.zhu5jia.com">
+        <a class="navbar-brand" href="https://test.zhu5jia.com">
           <img alt="zhu5jia" ng-src="media/favicon.png" />
         </a>
       </div>
@@ -79,8 +79,8 @@
               <input type="text" class="form-control z5j-destination" uib-popover-template="destinationPopover.templateUrl" placeholder="我想去{{location}}" ng-model="destination" popover-placement="bottom-left" popover-class="z5j-destination-popover" popover-trigger="'focus'" ng-if="destinationPopover.display"/>
             </div>
 <script type="text/ng-template" id="destinationPopoverTemplate.html">
-    <div ng-repeat="destination in destinationPopover.content">
-      <label ng-click="setDestination(destination)">{{destination}}</label>
+    <div ng-repeat="destinations in destinationPopover.content">
+      <label ng-click="setDestination(destinations)">{{destinations}}</label>
     </div>
 </script>
             <div class="form-group">
@@ -92,7 +92,7 @@
               <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="toDate" is-open="toPopup.opened" datepicker-options="toOptions" popup-placement="bottom-left" show-button-bar="false" ng-required="true" ng-click="toOpen()" placeholder="离开" readonly/>
             </div>
             <div class="form-group">
-              <select id="guest_no" class="adult">
+              <select ng-model="guestNo" class="adult">
                 <option value="1" selected="selected">1位成人 </option>
                 <option value="2">2位成人 </option>
                 <option value="3">3位成人 </option>
