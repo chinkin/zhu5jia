@@ -75,8 +75,8 @@
           <form class="form-inline" role="form" method="post">
             <div class="form-group">
               <label class="sr-only" for="">目的地</label>
-              <input type="text" class="form-control z5j-destination" placeholder="我想去{{location}}" ng-model="destination" ng-if="!destinationPopover.display"/>
-              <input type="text" class="form-control z5j-destination" uib-popover-template="destinationPopover.templateUrl" placeholder="我想去{{location}}" ng-model="destination" popover-placement="bottom-left" popover-class="z5j-destination-popover" popover-trigger="'focus'" ng-if="destinationPopover.display"/>
+              <input type="text" class="form-control z5j-destination" placeholder="我想去{{location}}" ng-model="destination" ng-show="destinationPopover.content.length==0"/>
+              <input type="text" class="form-control z5j-destination" uib-popover-template="destinationPopover.templateUrl" placeholder="我想去{{location}}" ng-model="destination" popover-placement="bottom-left" popover-class="z5j-destination-popover" popover-trigger="'focus'" ng-show="destinationPopover.content.length>0"/>
             </div>
 <script type="text/ng-template" id="destinationPopoverTemplate.html">
     <div ng-repeat="destinations in destinationPopover.content">
@@ -92,21 +92,12 @@
               <input type="text" class="form-control" uib-datepicker-popup="{{format}}" ng-model="toDate" is-open="toPopup.opened" datepicker-options="toOptions" popup-placement="bottom-left" show-button-bar="false" ng-required="true" ng-click="toOpen()" placeholder="离开" readonly/>
             </div>
             <div class="form-group">
-              <select ng-model="guestNo" class="adult">
-                <option value="1" selected="selected">1位成人 </option>
-                <option value="2">2位成人 </option>
-                <option value="3">3位成人 </option>
-                <option value="4">4位成人 </option>
-                <option value="5">5位成人 </option>
-                <option value="6">6位成人 </option>
-                <option value="7">7位成人 </option>
-                <option value="8">8位成人 </option>
-                <option value="9">9人及以上</option>
+              <select class="form-control" ng-model="guestNo" ng-options="num.id as num.name for num in adultNo" >
               </select>
             </div>
   <!--
             <div class="am-form-group">
-              <select class="child">
+              <select class="form-control">
                 <option value="0" selected="selected">不带小孩</option>
                 <option value="1">1名儿童或婴儿</option>
                 <option value="2">2名儿童或婴儿</option>

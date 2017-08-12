@@ -13,33 +13,18 @@ angular.module('z5j.controllers', [])
 
   for (var i = 0; i < 3; i++) {
     slides.push({
-      image: "../media/bing-" + i + ".jpg",
+      image: '../media/bing-' + i + '.jpg',
       id: i
     });
   }
 
 //Popover组件(目的地历史)
   $scope.destinationPopover = {
-    content: [],
-    display: false,
+    content: ['上海', '北京'],
     templateUrl: 'destinationPopoverTemplate.html'
   };
-  function setSearchHistory() {
-    if (typeof(window.localStorage['Dest'][0]) == "undefined" || window.localStorage['Dest'][0] == "") {
-      $scope.destinationPopover.display = false;
-      return;
-    }
-    $scope.destinationPopover.display = true;
-    j = 0;
-    for (i = 0; i < window.localStorage['Dest'].length; i++) {
-      if (typeof(window.localStorage['Dest'][i]) != "undefined" && window.localStorage['Dest'][i] != "") {
-        $scope.destinationPopover.content[j] = window.localStorage['Dest'][i];
-        j++;
-      }
-    }
-  }
-  $scope.setDestination = function(destination) {
-    $scope.destination = destination;
+  $scope.setDestination = function(selectedDestination) {
+    $scope.destination = selectedDestination;
   };
 
 //日期组件
@@ -117,6 +102,17 @@ angular.module('z5j.controllers', [])
   $scope.me = {};
   $scope.location = "...";
   $scope.destination = "";
+  $scope.guestNo = 1;
+  $scope.adultNo = [{id: 1, name: '1位成人'},
+                    {id: 2, name: '2位成人'},
+                    {id: 3, name: '3位成人'},
+                    {id: 4, name: '4位成人'},
+                    {id: 5, name: '5位成人'},
+                    {id: 6, name: '6位成人'},
+                    {id: 7, name: '7位成人'},
+                    {id: 8, name: '8位成人'},
+                    {id: 9, name: '9人及以上'}
+                   ];
   $scope.images = [{address:"../media/bing-1.jpg"},
                    {address:"../media/bing-2.jpg"}
                   ];
@@ -135,14 +131,19 @@ angular.module('z5j.controllers', [])
   $scope.agents = [{id: 1, name: '是', ename: 'am'},
                    {id: 0, name: '不是', ename: 'am not'}
                   ];
+  $scope.adultNo = [{id: 1, name: '1位成人'},
+                    {id: 2, name: '2位成人'},
+                    {id: 3, name: '3位成人'},
+                    {id: 4, name: '4位成人'},
+                    {id: 5, name: '5位成人'},
+                    {id: 6, name: '6位成人'},
+                    {id: 7, name: '7位成人'},
+                    {id: 8, name: '8位成人'},
+                    {id: 9, name: '9人及以上'}
+                   ];
   $scope.currentAgent = $scope.agents[1].id;
   $scope.agent = $scope.agents[1].name;
   $scope.genders = GeneralService.getGeneral("General", "genders");
-  if (typeof(window.localStorage['Dest']) == "undefined") {
-    window.localStorage['Dest'] = [];
-  }
-  setSearchHistory();
-
 
 //刷新处理
   $scope.me = UserService.getMe("");
@@ -172,13 +173,7 @@ angular.module('z5j.controllers', [])
     if ($scope.destination == "") {
       alert("至少给个目的地吧");
     } else {
-      for (i = 4; i > 0; i--) {
-        if (typeof(window.localStorage['Dest'][i - 1]) != "undefined" && window.localStorage['Dest'][i - 1] != "") {
-          window.localStorage['Dest'][i] = window.localStorage['Dest'][i - 1];
-        }
-      }
-      window.localStorage['Dest'][0] = $scope.destination;
-      $state.go('search', {cityTo:$scope.destination, timeFrom:$scope.destination.fromDate, timeTo:$scope.destination.toDate, guestNo:$scope.guestNo});
+      $state.go('search', {cityTo:$scope.destination, timeFrom:$scope.fromDate, timeTo:$scope.toDate, guestNo:$scope.guestNo});
     }
   }
 
