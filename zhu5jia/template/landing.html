@@ -79,9 +79,11 @@
               <input type="text" class="form-control z5j-destination" uib-popover-template="destinationPopover.templateUrl" placeholder="我想去{{location}}" ng-model="destination" popover-placement="bottom-left" popover-class="z5j-destination-popover" popover-trigger="'focus'" ng-show="destinationPopover.content.length>0"/>
             </div>
 <script type="text/ng-template" id="destinationPopoverTemplate.html">
+  <div class="form-group">
     <div ng-repeat="destinations in destinationPopover.content">
       <label ng-click="setDestination(destinations)">{{destinations}}</label>
     </div>
+  </div>
 </script>
             <div class="form-group">
               <label class="sr-only" for="">入住日期</label>

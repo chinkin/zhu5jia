@@ -20,7 +20,8 @@ angular.module('z5j.controllers', [])
 
 //Popover组件(目的地历史)
   $scope.destinationPopover = {
-    content: ['上海', '北京'],
+    content: ['上海 - 2017/10/01 ~ 2017/10/10', '北京 - 2017/10/12 ~ 2017/10/13'],
+//    content: [],
     templateUrl: 'destinationPopoverTemplate.html'
   };
   $scope.setDestination = function(selectedDestination) {
