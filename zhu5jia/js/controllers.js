@@ -3,7 +3,7 @@ angular.module('z5j.controllers', [])
 // *******************
 // 首页
 // *******************
-.controller('LandingCtrl', function ($scope, $state, UserService, FileUploader, GeneralService) {
+.controller('LandingCtrl', function ($scope, $state, $uibModal, $document, UserService, FileUploader, GeneralService) {
 //图片轮播
   $scope.transInterval = 5000;
   $scope.noTransition = false;
@@ -185,13 +185,29 @@ angular.module('z5j.controllers', [])
       $scope.rememberAccount = true;
     }
   }
-  $scope.checkLocalUser = function () {
-    getLocalUser();
-  }
-  $scope.openLogin = function () {
-    $('#signup').modal('close');
-    $('#login').modal('open');
-    getLocalUser();
+  $scope.openLogin = function (parentSelector) {
+    var parentElement = parentSelector ? angular.element($document[0].querySelector(parentSelector)) : undefined;
+    var loginInstance = $uibModal.open({
+      templateUrl: 'template/login.html',
+      controller: 'LoginInstanceCtrl',
+      appendTo: parentElement,
+      resolve: {
+        items: function () {
+          var loginItems = {email: "",
+                            rememberAccount: false
+                           };
+          if (typeof(window.localStorage['Email']) != "undefined" && window.localStorage['Email'] != "") {
+            loginItems.email = window.localStorage['Email'];
+            loginItems.rememberAccount = true;
+          }
+          return loginItems;
+        }
+      }
+    });
+
+    loginInstance.result.then(function (selectedItem) {
+    }, function () {
+    });
   }
   $scope.openSignup = function () {
     $('#login').modal('close');
@@ -395,6 +411,12 @@ angular.module('z5j.controllers', [])
   $scope.gotoUser = function () {
     $state.go('user.dashboard');
   }
+})
+
+.controller('LoginInstanceCtrl', function ($scope, $uibModalInstance, items) {
+  $scope.logonData = {email: "", password: ""};
+  $scope.logonData.email = items.email;
+  $scope.rememberAccount = items.rememberAccount;
 })
 
 // *******************
