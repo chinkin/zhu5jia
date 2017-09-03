@@ -1,15 +1,15 @@
 <link rel="stylesheet" href="css/login.css">
-<div id="login" class="am-modal" tabindex="-1">
-  <div class="am-modal-dialog">
-    <div class="am-modal-hd">登录
+<div id="login">
+    <div class="modal-header">
+      <h4 class="modal-title" id="signup_label">登录</h4>
     </div>
-    <div class="am-modal-bd">
-      <form name="logonform" class="am-form" ng-submit="doLogon(logonform.$valid)" novalidate>
-        <div class="am-input-group">
+    <div class="modal-body">
+      <form name="logonform" ng-submit="doLogon(logonform.$valid)" novalidate>
+        <div class="form-group">
           <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
           <input type="email" class="am-form-field" ng-model="logonData.email" placeholder="注册邮箱" required>
         </div>
-        <div class="am-input-group">
+        <div class="form-group">
           <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
           <input type="password" class="am-form-field" ng-model="logonData.password" placeholder="密码" required>
         </div>
@@ -32,5 +32,4 @@
         </a>
       </div>
     </div>
-  </div>
 </div>

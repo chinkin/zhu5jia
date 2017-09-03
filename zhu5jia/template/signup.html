@@ -1,52 +1,48 @@
 <link rel="stylesheet" href="css/signup.css">
-<div id="signup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="signup_label" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h4 class="modal-title" id="signup_label">注册</h4>
+<div id="signup" aria-labelledby="signup_label" aria-hidden="true">
+  <div class="modal-header">
+    <h4 class="modal-title" id="signup_label">注册</h4>
+  </div>
+  <div class="modal-body">
+    <form name="registerform" ng-submit="doRegister(registerform.$valid)" novalidate>
+      <div class="form-group">
+        <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
+        <input type="text" class="am-form-field" ng-model="registerData.lastname" placeholder="姓" required>
+        <input type="text" class="am-form-field" ng-model="registerData.firstname" placeholder="名" required>
       </div>
-      <div class="modal-body">在这里添加一些文本
-      <form name="registerform" class="am-form" ng-submit="doRegister(registerform.$valid)" novalidate>
-        <div class="am-input-group">
-          <span class="am-input-group-label"><i class="am-icon-user am-icon-fw"></i></span>
-          <input type="text" class="am-form-field" ng-model="registerData.lastname" placeholder="姓" required>
-          <input type="text" class="am-form-field" ng-model="registerData.firstname" placeholder="名" required>
-        </div>
-        <div class="am-input-group">
-          <span class="am-input-group-label"><i class="am-icon-at am-icon-fw"></i></span>
-          <input type="email" class="am-form-field" ng-model="registerData.email" placeholder="邮箱" required>
-        </div>
-        <div class="am-input-group">
-          <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
-          <input type="password" class="am-form-field" ng-model="password" ng-minlength="8" ng-maxlength="16" placeholder="密码" required>
-          <input type="password" class="am-form-field" ng-model="repeatpassword" ng-minlength="8" ng-maxlength="16" placeholder="重复密码以确认" required>
-        </div>
-        <div class="am-g">
-          <div class="am-checkbox-inline">
-            <label>
-              <input type="checkbox" name="pushinformation" ng-model="registerData.pushinformation" checked>同意收取优惠券及信息
-            </label>
-          </div>
-        </div>
-        <div class="z5j-small-left">注册即代表我同意
-          <a data-popup="true" href="/terms">服务条款</a>
-          、
-          <a data-popup="true" href="/terms/privacy_policy">隐私政策</a>
-          、
-          <a data-popup="true" href="/terms/guest_refund_policy">房客退款政策</a>
-          及
-          <a data-popup="true" href="/terms/host_guarantee">房东保障计划条款</a>
-          。
-        </div>
-        <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="registerform.$invalid">注 册</button>
-      </form>
+      <div class="form-group">
+        <span class="am-input-group-label"><i class="am-icon-at am-icon-fw"></i></span>
+        <input type="email" class="am-form-field" ng-model="registerData.email" placeholder="邮箱" required>
       </div>
-      <div class="modal-footer">
-      <div class="z5j-modal-footer">已经是《住我家》会员？
-        <a ng-click="openLogin()"> 登录
-        </a>
+      <div class="form-group">
+        <span class="am-input-group-label"><i class="am-icon-lock am-icon-fw"></i></span>
+        <input type="password" class="am-form-field" ng-model="password" ng-minlength="8" ng-maxlength="16" placeholder="密码" required>
+        <input type="password" class="am-form-field" ng-model="repeatpassword" ng-minlength="8" ng-maxlength="16" placeholder="重复密码以确认" required>
       </div>
+      <div class="am-g">
+        <div class="am-checkbox-inline">
+          <label>
+            <input type="checkbox" name="pushinformation" ng-model="registerData.pushinformation" checked>同意收取优惠券及信息
+          </label>
+        </div>
       </div>
+      <div class="z5j-small-left">注册即代表我同意
+        <a data-popup="true" href="/terms">服务条款</a>
+        、
+        <a data-popup="true" href="/terms/privacy_policy">隐私政策</a>
+        、
+        <a data-popup="true" href="/terms/guest_refund_policy">房客退款政策</a>
+        及
+        <a data-popup="true" href="/terms/host_guarantee">房东保障计划条款</a>
+        。
+      </div>
+      <button type="submit" class="am-btn am-btn-secondary am-radius am-btn-block" ng-disabled="registerform.$invalid">注 册</button>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <div class="z5j-modal-footer">已经是《住我家》会员？
+      <a ng-click="openLogin()"> 登录
+      </a>
     </div>
   </div>
 </div>
