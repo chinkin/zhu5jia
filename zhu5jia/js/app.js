@@ -1,4 +1,4 @@
-angular.module('z5j', ['z5j.directives', 'z5j.filters', 'z5j.services', 'z5j.controllers', 'ui.router', 'ui.bootstrap', 'angularFileUpload'])
+angular.module('z5j', ['z5j.directives', 'z5j.filters', 'z5j.services', 'z5j.controllers', 'ui.router', 'ngAnimate', 'ui.bootstrap', 'angularFileUpload'])
 
 .config(function ($stateProvider, $urlRouterProvider, $locationProvider) {
   $stateProvider
